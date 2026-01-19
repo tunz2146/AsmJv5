@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Footer Fragment -->
+    <footer th:fragment="footer" class="footer">
+        <div class="container">
+            <!-- Main Footer -->
+            <div class="footer-main">
+                <div class="row g-4">
+                    <!-- Column 1: About -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <div class="footer-logo mb-3">
+                                <i class="fas fa-gamepad"></i>
+                                <span class="logo-text">
+                                    GAMING<span class="text-gradient">SHOP</span>
+                                </span>
+                            </div>
+                            <p class="footer-desc">
+                                Chuyên cung cấp thiết bị gaming chính hãng: Chuột, Bàn phím, Tai nghe và phụ kiện gaming cao cấp.
+                            </p>
+                            <div class="social-links">
+                                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+                                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 2: Quick Links -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <h5 class="footer-title">Liên kết nhanh</h5>
+                            <ul class="footer-links">
+                                <li><a th:href="@{/}"><i class="fas fa-angle-right me-2"></i>Trang chủ</a></li>
+                                <li><a th:href="@{/san-pham}"><i class="fas fa-angle-right me-2"></i>Sản phẩm</a></li>
+                                <li><a th:href="@{/khuyen-mai}"><i class="fas fa-angle-right me-2"></i>Khuyến mãi</a></li>
+                                <li><a th:href="@{/gioi-thieu}"><i class="fas fa-angle-right me-2"></i>Giới thiệu</a></li>
+                                <li><a th:href="@{/lien-he}"><i class="fas fa-angle-right me-2"></i>Liên hệ</a></li>
+                                <li><a th:href="@{/chinh-sach}"><i class="fas fa-angle-right me-2"></i>Chính sách</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 3: Categories -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <h5 class="footer-title">Danh mục</h5>
+                            <ul class="footer-links">
+                                <li><a th:href="@{/san-pham/chuot-gaming}"><i class="fas fa-mouse me-2"></i>Chuột Gaming</a></li>
+                                <li><a th:href="@{/san-pham/ban-phim-co}"><i class="fas fa-keyboard me-2"></i>Bàn Phím Cơ</a></li>
+                                <li><a th:href="@{/san-pham/tai-nghe-gaming}"><i class="fas fa-headphones me-2"></i>Tai Nghe Gaming</a></li>
+                                <li><a th:href="@{/san-pham/mousepad}"><i class="fas fa-border-none me-2"></i>Mousepad</a></li>
+                                <li><a th:href="@{/san-pham/ghe-gaming}"><i class="fas fa-chair me-2"></i>Ghế Gaming</a></li>
+                                <li><a th:href="@{/san-pham/phu-kien}"><i class="fas fa-plug me-2"></i>Phụ kiện</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 4: Contact Info -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <h5 class="footer-title">Thông tin liên hệ</h5>
+                            <ul class="footer-contact">
+                                <li>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div>
+                                        <strong>Địa chỉ:</strong>
+                                        <p>123 Nguyễn Huệ, Q.1, TP.HCM</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="fas fa-phone-alt"></i>
+                                    <div>
+                                        <strong>Hotline:</strong>
+                                        <p><a href="tel:1900xxxx">1900.xxxx</a></p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="fas fa-envelope"></i>
+                                    <div>
+                                        <strong>Email:</strong>
+                                        <p><a href="mailto:support@gamingshop.vn">support@gamingshop.vn</a></p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="fas fa-clock"></i>
+                                    <div>
+                                        <strong>Giờ làm việc:</strong>
+                                        <p>8:00 - 22:00 (Hàng ngày)</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Methods -->
+            <div class="footer-payment">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h6 class="mb-3">Phương thức thanh toán</h6>
+                        <div class="payment-methods">
+                            <img src="https://via.placeholder.com/60x40/333/fff?text=VISA" alt="Visa">
+                            <img src="https://via.placeholder.com/60x40/333/fff?text=MC" alt="Mastercard">
+                            <img src="https://via.placeholder.com/60x40/333/fff?text=ATM" alt="ATM">
+                            <img src="https://via.placeholder.com/60x40/333/fff?text=Momo" alt="Momo">
+                            <img src="https://via.placeholder.com/60x40/333/fff?text=COD" alt="COD">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="mb-3">Đối tác vận chuyển</h6>
+                        <div class="shipping-partners">
+                            <img src="https://via.placeholder.com/60x40/333/fff?text=GHN" alt="Giao Hàng Nhanh">
+                            <img src="https://via.placeholder.com/60x40/333/fff?text=GHTK" alt="Giao Hàng Tiết Kiệm">
+                            <img src="https://via.placeholder.com/60x40/333/fff?text=JT" alt="J&T">
+                            <img src="https://via.placeholder.com/60x40/333/fff?text=VTP" alt="Viettel Post">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <p class="mb-0">
+                            &copy; <span th:text="${#dates.year(#dates.createNow())}">2025</span> 
+                            <strong class="text-gradient">Gaming Shop</strong>. All rights reserved.
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="footer-bottom-links">
+                            <a href="#">Điều khoản sử dụng</a>
+                            <span class="separator">|</span>
+                            <a href="#">Chính sách bảo mật</a>
+                            <span class="separator">|</span>
+                            <a href="#">Sitemap</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Decorative Elements -->
+        <div class="footer-decoration">
+            <div class="decoration-line"></div>
+        </div>
+    </footer>
+    
+    <!-- Footer Styles -->
+    <style>
+        /* Footer Main */
+        .footer {
+            background: var(--bg-card);
+            margin-top: var(--spacing-xl);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-main {
+            padding: var(--spacing-xl) 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        
+        /* Footer Logo */
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .footer-logo i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        
+        /* Footer Widget */
+        .footer-widget {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .footer-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.125rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+        
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+        
+        .footer-desc {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-darker);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            transition: var(--transition-normal);
+        }
+        
+        .social-links a:hover {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+        }
+        
+        /* Footer Links */
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+            display: inline-block;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        .footer-links i {
+            font-size: 0.875rem;
+            opacity: 0.7;
+        }
+        
+        /* Footer Contact */
+        .footer-contact {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-contact li {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            align-items: flex-start;
+        }
+        
+        .footer-contact i {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            margin-top: 0.25rem;
+        }
+        
+        .footer-contact strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .footer-contact p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        .footer-contact a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        
+        .footer-contact a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Payment & Shipping */
+        .footer-payment {
+            padding: var(--spacing-lg) 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        
+        .footer-payment h6 {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .payment-methods,
+        .shipping-partners {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .payment-methods img,
+        .shipping-partners img {
+            height: 40px;
+            width: auto;
+            border-radius: var(--radius-sm);
+            opacity: 0.7;
+            transition: var(--transition-fast);
+        }
+        
+        .payment-methods img:hover,
+        .shipping-partners img:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+        
+        /* Footer Bottom */
+        .footer-bottom {
+            padding: var(--spacing-md) 0;
+        }
+        
+        .footer-bottom p {
+            color: var(--text-secondary);
+            margin: 0.5rem 0;
+        }
+        
+        .footer-bottom-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        
+        .footer-bottom-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        
+        .footer-bottom-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom-links .separator {
+            color: var(--text-muted);
+        }
+        
+        /* Decorative Elements */
+        .footer-decoration {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--neon-blue), var(--neon-purple));
+        }
+        
+        
+        @media (max-width: 768px) {
+            .footer-main {
+                padding: var(--spacing-lg) 0;
+            }
+            
+            .footer-widget {
+                text-align: center;
+            }
+            
+            .footer-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .footer-contact li {
+                justify-content: center;
+            }
+            
+            .footer-bottom-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</body>
+</html>
