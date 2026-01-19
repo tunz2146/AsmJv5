@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${pageTitle ?: 'Chi tiết sản phẩm'} + ' - Gaming Shop'">Chi tiết sản phẩm</title>
+    <title th:text="${product?.name ?: 'Chi tiết sản phẩm'} + ' - Gaming Shop'">Chi tiết sản phẩm</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
@@ -15,12 +15,172 @@
             --text-primary: #ffffff;
             --text-secondary: #b0b8d4;
         }
-        body { background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); color: var(--text-primary); }
-        .product-image { background: var(--bg-card); border-radius: 10px; padding: 1.5rem; }
-        .product-image img { width: 100%; border-radius: 8px; }
-        .product-info { padding: 1.5rem; }
-        .product-price { font-size: 2rem; color: var(--primary-color); font-weight: 700; }
-        .btn-primary { background: linear-gradient(135deg, var(--primary-color), #00ccff); border: none; color: var(--bg-dark); font-weight: 600; }
+        body { 
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); 
+            color: var(--text-primary); 
+        }
+        .breadcrumb-section {
+            padding: 1.5rem 0;
+            background: var(--bg-card);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        .breadcrumb {
+            background: transparent;
+            margin: 0;
+            padding: 0;
+        }
+        .breadcrumb-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .breadcrumb-item.active {
+            color: var(--primary-color);
+        }
+        .product-detail-section {
+            padding: 3rem 0;
+        }
+        .product-image-wrapper {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .product-image-wrapper img {
+            max-width: 100%;
+            max-height: 500px;
+            border-radius: 8px;
+        }
+        .product-info {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+        .product-name {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .product-price-section {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .current-price {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        .original-price {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            margin-left: 1rem;
+        }
+        .stock-status {
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        }
+        .stock-status.in-stock {
+            color: var(--primary-color);
+        }
+        .stock-status.out-of-stock {
+            color: #ff006e;
+        }
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .quantity-controls {
+            display: flex;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-dark);
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .qty-btn:hover {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+        }
+        #quantity {
+            width: 60px;
+            text-align: center;
+            border: none;
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        .btn-add-cart, .btn-buy-now {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #00ccff);
+            border: none;
+            color: var(--bg-dark);
+        }
+        .btn-accent {
+            background: linear-gradient(135deg, #ff006e, #b537f2);
+            border: none;
+            color: var(--text-primary);
+        }
+        .product-description {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 8px;
+        }
+        .related-products {
+            margin-top: 3rem;
+        }
+        .related-products h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .product-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .product-card h5 {
+            min-height: 48px;
+            margin: 1rem 0;
+        }
+        .product-card .price {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -28,15 +188,19 @@
     <div th:replace="~{layout/header :: header}"></div>
     
     <main>
-        
         <!-- BREADCRUMB -->
         <section class="breadcrumb-section">
             <div class="container">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a th:href="@{/}"><i class="fas fa-home me-2"></i>Trang chủ</a></li>
-                        <li class="breadcrumb-item"><a th:href="@{/san-pham}">Sản phẩm</a></li>
-                        <li class="breadcrumb-item active" aria-current="page" th:text="${product?.name}">Sản phẩm</li>
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/}"><i class="fas fa-home me-2"></i>Trang chủ</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/san-pham}">Sản phẩm</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page" 
+                            th:text="${product?.name}">Sản phẩm</li>
                     </ol>
                 </nav>
             </div>
@@ -45,954 +209,159 @@
         <!-- PRODUCT DETAIL -->
         <section class="product-detail-section">
             <div class="container">
-                <div class="row g-5">
-                    
-                    <!-- LEFT: Product Images -->
+                <div class="row g-4">
+                    <!-- Product Image -->
                     <div class="col-lg-6">
-                        <div class="product-images-wrapper">
-                            <!-- Main Image -->
-                            <div class="main-image-container">
-                                <div class="product-badge-container" th:if="${product?.discountPrice != null}">
-                                    <span class="product-badge">
-                                        -<span th:text="${product?.getDiscountPercentage()}">19</span>%
-                                    </span>
-                                </div>
-                                <img id="mainImage" 
-                                     th:src="@{'/images/products/' + ${product?.imageUrl}}"
-                                     src="https://via.placeholder.com/600x600/0a0e27/00ff88?text=Gaming+Product"
-                                     th:alt="${product?.name}"
-                                     alt="Product Main Image"
-                                     class="img-fluid main-product-image">
-                            </div>
+                        <div class="product-image-wrapper">
+                            <img th:src="${product?.imageUrl}"
+                                 th:alt="${product?.name}"
+                                 onerror="this.src='https://via.placeholder.com/500x500/0a0e27/00ff88?text=Gaming+Product'">
                         </div>
                     </div>
 
-                    <!-- RIGHT: Product Info -->
+                    <!-- Product Info -->
                     <div class="col-lg-6">
-                        <div class="product-info-wrapper">
-                            <!-- Category -->
-                            <div class="product-brand-tag">
-                                <i class="fas fa-tag me-2"></i>
-                                <span th:text="${product?.category?.name}">Gaming</span>
+                        <div class="product-info">
+                            <!-- Category Badge -->
+                            <div class="mb-3">
+                                <span class="badge" 
+                                      style="background: var(--primary-color); color: var(--bg-dark); padding: 0.5rem 1rem;">
+                                    <i class="fas fa-tag me-1"></i>
+                                    <span th:text="${product?.category?.name}">Category</span>
+                                </span>
                             </div>
                             
                             <!-- Product Name -->
-                            <h1 class="product-name" th:text="${product?.name}">
-                                Gaming Product
-                            </h1>
+                            <h1 class="product-name" th:text="${product?.name}">Gaming Product</h1>
                             
                             <!-- Stock Status -->
-                            <div class="product-stock-section">
-                                <span th:if="${product?.stockQuantity > 0}" class="text-success">
-                                    <i class="fas fa-check-circle me-1"></i>
-                                    <span th:text="${product?.stockQuantity}">100</span> sản phẩm có sẵn
+                            <div class="stock-status" 
+                                 th:classappend="${product?.stockQuantity > 0 ? 'in-stock' : 'out-of-stock'}">
+                                <i class="fas fa-check-circle me-2" th:if="${product?.stockQuantity > 0}"></i>
+                                <i class="fas fa-times-circle me-2" th:if="${product?.stockQuantity <= 0}"></i>
+                                <span th:if="${product?.stockQuantity > 0}">
+                                    Còn <strong th:text="${product?.stockQuantity}">50</strong> sản phẩm
                                 </span>
-                                <span th:if="${product?.stockQuantity <= 0}" class="text-danger">
-                                    <i class="fas fa-times-circle me-1"></i>
-                                    Hết hàng
-                                </span>
+                                <span th:if="${product?.stockQuantity <= 0}">Hết hàng</span>
                             </div>
                             
                             <!-- Price -->
                             <div class="product-price-section">
-                                <div class="price-wrapper">
-                                    <span class="current-price">
-                                        <span th:text="${#numbers.formatInteger(product?.getFinalPrice(), 0, 'COMMA')}">1,290,000</span>₫
-                                    </span>
-                                    <span class="original-price" th:if="${product?.discountPrice != null}">
-                                        <span th:text="${#numbers.formatInteger(product?.price, 0, 'COMMA')}">1,590,000</span>₫
-                                    </span>
-                                    <span class="discount-badge" th:if="${product?.discountPrice != null}">
-                                        Tiết kiệm <span th:text="${#numbers.formatInteger(product?.price - product?.discountPrice, 0, 'COMMA')}">300,000</span>₫
-                                    </span>
-                                </div>
+                                <span class="current-price" 
+                                      th:text="${#numbers.formatInteger(product?.getFinalPrice(), 0, 'COMMA')} + '₫'">
+                                    1,290,000₫
+                                </span>
+                                <span class="original-price" th:if="${product?.discountPrice != null}"
+                                      th:text="${#numbers.formatInteger(product?.price, 0, 'COMMA')} + '₫'">
+                                    1,590,000₫
+                                </span>
                             </div>
                             
                             <!-- Description -->
-                            <div class="short-description" th:if="${product?.description}">
-                                <p th:text="${product?.description}">
-                                    Sản phẩm gaming chất lượng cao
-                                </p>
+                            <div class="product-description" th:if="${product?.description}">
+                                <h5><i class="fas fa-info-circle me-2"></i>Mô tả sản phẩm</h5>
+                                <p th:text="${product?.description}">Product description here</p>
                             </div>
                             
-                            <!-- Key Features
-                            <div class="key-features">
-                                <h5 class="features-title">Điểm nổi bật:</h5>
-                                <ul class="features-list">
-                                    <li><i class="fas fa-check-circle me-2"></i>Cảm biến HERO 25K độ chính xác cao</li>
-                                    <li><i class="fas fa-check-circle me-2"></i>11 nút bấm có thể lập trình</li>
-                                    <li><i class="fas fa-check-circle me-2"></i>Đèn RGB LIGHTSYNC tùy chỉnh</li>
-                                    <li><i class="fas fa-check-circle me-2"></i>Switch cơ học 50 triệu lần nhấn</li>
-                                </ul>
-                            </div> -->
-                            
-                            <!-- Stock Status -->
-                            <div class="stock-status">
-                                <span class="stock-label">Tình trạng:</span>
-                                <span class="stock-value in-stock" th:if="${product?.tonKho > 0}">
-                                    <i class="fas fa-check-circle me-1"></i>
-                                    Còn hàng (<span th:text="${product?.tonKho}">50</span> sản phẩm)
-                                </span>
-                                <span class="stock-value out-of-stock" th:if="${product?.tonKho == 0}">
-                                    <i class="fas fa-times-circle me-1"></i>
-                                    Hết hàng
-                                </span>
-                            </div>
-                            
-                            <!-- Quantity & Add to Cart -->
-                            <div class="product-actions">
-                                <div class="quantity-selector">
-                                    <label>Số lượng:</label>
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn" onclick="decreaseQty()">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="number" id="quantity" value="1" min="1" max="10" readonly>
-                                        <button class="qty-btn" onclick="increaseQty()">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div class="action-buttons">
-                                    <button class="btn btn-primary btn-add-cart" onclick="addToCart()">
-                                        <i class="fas fa-shopping-cart me-2"></i>
-                                        Thêm vào giỏ
+                            <!-- Quantity Selector -->
+                            <div class="quantity-selector" th:if="${product?.stockQuantity > 0}">
+                                <label><strong>Số lượng:</strong></label>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn" onclick="decreaseQty()">
+                                        <i class="fas fa-minus"></i>
                                     </button>
-                                    <button class="btn btn-accent btn-buy-now" onclick="buyNow()">
-                                        <i class="fas fa-bolt me-2"></i>
-                                        Mua ngay
+                                    <input type="number" id="quantity" value="1" min="1" 
+                                           th:max="${product?.stockQuantity}" readonly>
+                                    <button class="qty-btn" onclick="increaseQty()">
+                                        <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
                             
-                            <!-- Wishlist & Share -->
-                            <div class="extra-actions">
-                                <button class="btn-wishlist" onclick="toggleWishlist()">
-                                    <i class="far fa-heart"></i>
-                                    <span>Yêu thích</span>
+                            <!-- Add to Cart Buttons -->
+                            <div th:if="${product?.stockQuantity > 0}">
+                                <button class="btn btn-primary btn-add-cart" onclick="addToCart()">
+                                    <i class="fas fa-shopping-cart me-2"></i>Thêm vào giỏ hàng
                                 </button>
-                                <button class="btn-share" onclick="shareProduct()">
-                                    <i class="fas fa-share-alt"></i>
-                                    <span>Chia sẻ</span>
+                                <button class="btn btn-accent btn-buy-now" onclick="buyNow()">
+                                    <i class="fas fa-bolt me-2"></i>Mua ngay
                                 </button>
                             </div>
                             
-                            <!-- Policies -->
-                            <div class="product-policies">
-                                <div class="policy-item">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <span>Bảo hành chính hãng 24 tháng</span>
-                                </div>
-                                <div class="policy-item">
-                                    <i class="fas fa-sync-alt"></i>
-                                    <span>Đổi trả trong 7 ngày</span>
-                                </div>
-                                <div class="policy-item">
-                                    <i class="fas fa-shipping-fast"></i>
-                                    <span>Miễn phí vận chuyển từ 500K</span>
-                                </div>
-                                <div class="policy-item">
-                                    <i class="fas fa-headset"></i>
-                                    <span>Hỗ trợ 24/7</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PRODUCT DETAILS TABS -->
-                <div class="product-details-tabs mt-5">
-                    <ul class="nav nav-tabs" id="productTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="description-tab" data-bs-toggle="tab" 
-                                    data-bs-target="#description" type="button" role="tab">
-                                <i class="fas fa-info-circle me-2"></i>
-                                Mô tả chi tiết
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="specs-tab" data-bs-toggle="tab" 
-                                    data-bs-target="#specs" type="button" role="tab">
-                                <i class="fas fa-cogs me-2"></i>
-                                Thông số kỹ thuật
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" 
-                                    data-bs-target="#reviews" type="button" role="tab">
-                                <i class="fas fa-star me-2"></i>
-                                Đánh giá (<span th:text="${product?.soDanhGia ?: 0}">127</span>)
-                            </button>
-                        </li>
-                    </ul>
-                    
-                    <div class="tab-content" id="productTabsContent">
-                        <!-- Description Tab -->
-                        <div class="tab-pane fade show active" id="description" role="tabpanel">
-                            <div class="tab-content-wrapper">
-                                <div th:utext="${product?.moTaChiTiet}">
-                                    <h3>Giới thiệu</h3>
-                                    <p>Logitech G502 HERO là chuột gaming hiệu suất cao thế hệ mới với cảm biến quang học HERO 25K tiên tiến nhất...</p>
-                                    <h3>Đặc điểm nổi bật</h3>
-                                    <ul>
-                                        <li>Cảm biến HERO 25K với độ nhạy DPI lên đến 25,600</li>
-                                        <li>11 nút bấm có thể lập trình hoàn toàn</li>
-                                        <li>Hệ thống trọng lượng điều chỉnh với 5 quả nặng 3.6g</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Specifications Tab -->
-                        <div class="tab-pane fade" id="specs" role="tabpanel">
-                            <div class="tab-content-wrapper">
-                                <h3>Thông số kỹ thuật</h3>
-                                <div class="specs-table">
-                                    <div class="spec-row">
-                                        <div class="spec-label">Cảm biến</div>
-                                        <div class="spec-value">HERO 25K</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">DPI</div>
-                                        <div class="spec-value">100 - 25,600</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">IPS</div>
-                                        <div class="spec-value">400+</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">Polling Rate</div>
-                                        <div class="spec-value">1000 Hz</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">Switches</div>
-                                        <div class="spec-value">Mechanical (50M clicks)</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">Số nút bấm</div>
-                                        <div class="spec-value">11 programmable buttons</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">Trọng lượng</div>
-                                        <div class="spec-value">121g (có thể điều chỉnh đến 139g)</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">Kích thước</div>
-                                        <div class="spec-value">132 x 75 x 40 mm</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">Độ dài dây</div>
-                                        <div class="spec-value">2.1m</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">Đèn LED</div>
-                                        <div class="spec-value">RGB LIGHTSYNC</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">Kết nối</div>
-                                        <div class="spec-value">Wired USB</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">Software</div>
-                                        <div class="spec-value">Logitech G HUB</div>
-                                    </div>
-                                    <div class="spec-row">
-                                        <div class="spec-label">Bảo hành</div>
-                                        <div class="spec-value">24 tháng</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Reviews Tab -->
-                        <div class="tab-pane fade" id="reviews" role="tabpanel">
-                            <div class="tab-content-wrapper">
-                                <!-- Rating Summary -->
-                                <div class="rating-summary">
-                                    <div class="rating-overview">
-                                        <div class="rating-score">
-                                            <span class="score-number" th:text="${product?.danhGiaTrungBinh}">4.5</span>
-                                            <div class="score-stars">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <div class="score-total">
-                                                <span th:text="${product?.soDanhGia ?: 0}">127</span> đánh giá
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="rating-bars">
-                                        <div class="rating-bar-item">
-                                            <span class="bar-label">5 <i class="fas fa-star"></i></span>
-                                            <div class="bar-progress">
-                                                <div class="bar-fill" style="width: 70%"></div>
-                                            </div>
-                                            <span class="bar-count">89</span>
-                                        </div>
-                                        <div class="rating-bar-item">
-                                            <span class="bar-label">4 <i class="fas fa-star"></i></span>
-                                            <div class="bar-progress">
-                                                <div class="bar-fill" style="width: 20%"></div>
-                                            </div>
-                                            <span class="bar-count">25</span>
-                                        </div>
-                                        <div class="rating-bar-item">
-                                            <span class="bar-label">3 <i class="fas fa-star"></i></span>
-                                            <div class="bar-progress">
-                                                <div class="bar-fill" style="width: 7%"></div>
-                                            </div>
-                                            <span class="bar-count">9</span>
-                                        </div>
-                                        <div class="rating-bar-item">
-                                            <span class="bar-label">2 <i class="fas fa-star"></i></span>
-                                            <div class="bar-progress">
-                                                <div class="bar-fill" style="width: 2%"></div>
-                                            </div>
-                                            <span class="bar-count">3</span>
-                                        </div>
-                                        <div class="rating-bar-item">
-                                            <span class="bar-label">1 <i class="fas fa-star"></i></span>
-                                            <div class="bar-progress">
-                                                <div class="bar-fill" style="width: 1%"></div>
-                                            </div>
-                                            <span class="bar-count">1</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Reviews List -->
-                                <div class="reviews-list">
-                                    <h4>Nhận xét từ khách hàng</h4>
-                                    
-                                    <!-- Review Item -->
-                                    <div class="review-item">
-                                        <div class="review-header">
-                                            <div class="reviewer-info">
-                                                <img src="https://via.placeholder.com/50/0a0e27/00ff88?text=U" alt="User" class="reviewer-avatar">
-                                                <div>
-                                                    <div class="reviewer-name">Nguyễn Văn A</div>
-                                                    <div class="review-date">2 ngày trước</div>
-                                                </div>
-                                            </div>
-                                            <div class="review-rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="review-content">
-                                            <p>Chuột rất tốt, cảm biến chính xác, nhiều nút bấm tiện lợi. Đèn RGB đẹp. Đáng tiền!</p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Review Item 2 -->
-                                    <div class="review-item">
-                                        <div class="review-header">
-                                            <div class="reviewer-info">
-                                                <img src="https://via.placeholder.com/50/0a0e27/00ff88?text=U" alt="User" class="reviewer-avatar">
-                                                <div>
-                                                    <div class="reviewer-name">Trần Thị B</div>
-                                                    <div class="review-date">1 tuần trước</div>
-                                                </div>
-                                            </div>
-                                            <div class="review-rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="review-content">
-                                            <p>Sản phẩm tốt, giao hàng nhanh. Hơi nặng một chút nhưng chơi game rất ổn.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                            <!-- Out of Stock Button -->
+                            <div th:if="${product?.stockQuantity <= 0}">
+                                <button class="btn btn-secondary w-100" disabled>
+                                    <i class="fas fa-times-circle me-2"></i>Hết hàng
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- RELATED PRODUCTS -->
-                <div class="related-products-section mt-5">
-                    <h2 class="section-title">
-                        <i class="fas fa-th-large me-2"></i>
-                        Sản phẩm tương tự
-                    </h2>
+                <div class="related-products" th:if="${relatedProducts != null and !relatedProducts.isEmpty()}">
+                    <h3><i class="fas fa-th-large me-2"></i>Sản phẩm liên quan</h3>
                     <div class="row g-4">
-                        <div class="col-lg-3 col-md-6" th:each="relatedProduct : ${relatedProducts}">
+                        <div class="col-lg-3 col-md-6" th:each="item : ${relatedProducts}">
                             <div class="product-card">
-                                <div class="product-card-img-wrapper">
-                                    <img th:src="@{'/images/products/' + ${relatedProduct.hinhAnh}}"
-                                         src="https://via.placeholder.com/300x300/0a0e27/00ff88?text=Related"
-                                         th:alt="${relatedProduct.tenSanPham}">
-                                </div>
-                                <div class="product-card-body">
-                                    <span class="product-brand" th:text="${relatedProduct.hang?.tenHang}">Brand</span>
-                                    <h5 class="product-title">
-                                        <a th:href="@{'/san-pham/' + ${relatedProduct.slug}}" th:text="${relatedProduct.tenSanPham}">
-                                            Product Name
-                                        </a>
-                                    </h5>
-                                    <div class="product-price-wrapper">
-                                        <span class="product-price">
-                                            <span th:text="${#numbers.formatInteger(relatedProduct.giaGiam != null ? relatedProduct.giaGiam : relatedProduct.giaSanPham, 0, 'COMMA')}">1,290,000</span>₫
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Fallback related products -->
-                        <div class="col-lg-3 col-md-6" th:remove="all">
-                            <div class="product-card">
-                                <div class="product-card-img-wrapper">
-                                    <img src="https://via.placeholder.com/300x300/0a0e27/00ff88?text=Related+1" alt="Related">
-                                </div>
-                                <div class="product-card-body">
-                                    <span class="product-brand">Razer</span>
-                                    <h5 class="product-title">Razer DeathAdder V3</h5>
-                                    <div class="product-price-wrapper">
-                                        <span class="product-price">1,890,000₫</span>
-                                    </div>
-                                </div>
+                                <img th:src="${item.imageUrl}"
+                                     th:alt="${item.name}"
+                                     onerror="this.src='https://via.placeholder.com/200x200/0a0e27/00ff88?text=Related'">
+                                <h5 th:text="${item.name}">Related Product</h5>
+                                <p class="price" 
+                                   th:text="${#numbers.formatInteger(item.getFinalPrice(), 0, 'COMMA')} + '₫'">
+                                    1,000,000₫
+                                </p>
+                                <a th:href="@{'/san-pham/' + ${item.id}}" class="btn btn-sm btn-primary w-100">
+                                    <i class="fas fa-eye"></i> Xem chi tiết
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Image Modal -->
-        <div class="modal fade" id="imageModal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <img id="modalImage" src="" alt="Product" class="img-fluid">
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </main>
 
     <!-- Footer -->
     <div th:replace="~{layout/footer :: footer}"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Quantity Controls
+        function increaseQty() {
+            const input = document.getElementById('quantity');
+            const max = parseInt(input.max);
+            const current = parseInt(input.value);
+            if (current < max) {
+                input.value = current + 1;
+            }
+        }
+
+        function decreaseQty() {
+            const input = document.getElementById('quantity');
+            const min = parseInt(input.min);
+            const current = parseInt(input.value);
+            if (current > min) {
+                input.value = current - 1;
+            }
+        }
+
+        // Add to Cart
+        function addToCart() {
+            const quantity = document.getElementById('quantity').value;
+            const productName = document.querySelector('.product-name').textContent;
+            
+            alert('Đã thêm ' + quantity + 'x "' + productName + '" vào giỏ hàng!');
+            console.log('Adding to cart:', productName, 'Qty:', quantity);
+        }
+
+        // Buy Now
+        function buyNow() {
+            addToCart();
+            // Uncomment khi có trang giỏ hàng
+            // setTimeout(() => { window.location.href = '/gio-hang'; }, 500);
+        }
+    </script>
 </body>
 </html>
-
-<script>
-// Quantity Controls
-function increaseQty() {
-    const input = document.getElementById('quantity');
-    const max = parseInt(input.max);
-    const current = parseInt(input.value);
-    if (current < max) {
-        input.value = current + 1;
-    }
-}
-
-function decreaseQty() {
-    const input = document.getElementById('quantity');
-    const min = parseInt(input.min);
-    const current = parseInt(input.value);
-    if (current > min) {
-        input.value = current - 1;
-    }
-}
-
-// Change Main Image
-function changeMainImage(thumbnail) {
-    const mainImage = document.getElementById('mainImage');
-    const newSrc = thumbnail.querySelector('img').src;
-    mainImage.src = newSrc;
-    
-    // Update active thumbnail
-    document.querySelectorAll('.thumbnail-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    thumbnail.classList.add('active');
-}
-
-// Open Image Modal
-function openImageModal() {
-    const mainImage = document.getElementById('mainImage');
-    const modalImage = document.getElementById('modalImage');
-    modalImage.src = mainImage.src;
-    const modal = new bootstrap.Modal(document.getElementById('imageModal'));
-    modal.show();
-}
-
-// Add to Cart
-function addToCart() {
-    const quantity = document.getElementById('quantity').value;
-    const productName = document.querySelector('.product-name').textContent;
-    
-    // TODO: Implement actual add to cart logic
-    console.log('Adding to cart:', productName, 'Qty:', quantity);
-    
-    showToast(`Đã thêm ${quantity}x "${productName}" vào giỏ hàng!`, 'success');
-}
-
-// Buy Now
-function buyNow() {
-    addToCart();
-    setTimeout(() => {
-        window.location.href = '/gio-hang';
-    }, 500);
-}
-
-// Toggle Wishlist
-function toggleWishlist() {
-    const btn = event.currentTarget;
-    const icon = btn.querySelector('i');
-    
-    if (icon.classList.contains('far')) {
-        icon.classList.remove('far');
-        icon.classList.add('fas');
-        showToast('Đã thêm vào danh sách yêu thích!', 'success');
-    } else {
-        icon.classList.remove('fas');
-        icon.classList.add('far');
-        showToast('Đã xóa khỏi danh sách yêu thích!', 'success');
-    }
-}
-
-// Share Product
-function shareProduct() {
-    if (navigator.share) {
-        navigator.share({
-            title: document.querySelector('.product-name').textContent,
-            url: window.location.href
-        });
-    } else {
-        // Fallback: copy to clipboard
-        navigator.clipboard.writeText(window.location.href);
-        showToast('Đã copy link sản phẩm!', 'success');
-    }
-}
-</script>
-
-<style>
-/* ================= PRODUCT DETAIL SECTION ================= */
-.product-detail-section {
-    padding: 2rem 0 4rem 0;
-}
-
-/* ================= PRODUCT IMAGES ================= */
-.product-images-wrapper {
-    position: sticky;
-    top: 100px;
-}
-
-.main-image-container {
-    position: relative;
-    background: var(--bg-card);
-    border: 1px solid rgba(0, 255, 136, 0.1);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    margin-bottom: 1rem;
-    overflow: hidden;
-}
-
-.main-product-image {
-    width: 100%;
-    max-height: 480px;
-    object-fit: contain;
-    border-radius: var(--radius-md);
-    transition: var(--transition-slow);
-}
-
-.main-product-image:hover {
-    transform: scale(1.05);
-}
-
-.zoom-btn {
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    border: none;
-    color: var(--bg-dark);
-    font-size: 1.125rem;
-    cursor: pointer;
-    opacity: 0;
-    transition: var(--transition-normal);
-}
-
-.main-image-container:hover .zoom-btn {
-    opacity: 1;
-}
-
-/* ================= THUMBNAILS ================= */
-.thumbnail-gallery {
-    display: flex;
-    gap: 1rem;
-}
-
-.thumbnail-item {
-    width: 80px;
-    height: 80px;
-    border: 2px solid transparent;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    overflow: hidden;
-    transition: var(--transition-fast);
-}
-
-.thumbnail-item:hover,
-.thumbnail-item.active {
-    border-color: var(--primary-color);
-}
-
-.thumbnail-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* ================= PRODUCT INFO ================= */
-.product-brand-tag {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--primary-color), var(--neon-blue));
-    color: var(--bg-dark);
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
-
-.product-name {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-}
-
-.product-rating-section {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(0, 255, 136, 0.1);
-}
-
-.stars i {
-    color: #ffc107;
-}
-
-.separator {
-    color: var(--text-muted);
-}
-
-/* ================= PRICE ================= */
-.product-price-section {
-    background: var(--bg-card);
-    border: 2px solid var(--primary-color);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.current-price {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    font-family: 'Orbitron', sans-serif;
-}
-
-.original-price {
-    font-size: 1.25rem;
-    color: var(--text-muted);
-    text-decoration: line-through;
-    margin-left: 1rem;
-}
-
-.discount-badge {
-    display: inline-block;
-    background: var(--accent-color);
-    color: var(--text-primary);
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.875rem;
-    margin-left: 1rem;
-}
-
-/* ================= FEATURES ================= */
-.key-features {
-    background: var(--bg-card);
-    border: 1px solid rgba(0, 255, 136, 0.1);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.features-title {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.features-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.features-list li {
-    color: var(--text-secondary);
-    margin-bottom: 0.75rem;
-}
-
-.features-list i {
-    color: var(--primary-color);
-}
-
-/* ================= STOCK ================= */
-.stock-status {
-    margin-bottom: 1.5rem;
-}
-
-.stock-value.in-stock {
-    color: var(--primary-color);
-}
-
-.stock-value.out-of-stock {
-    color: var(--accent-color);
-}
-
-/* ================= QUANTITY ================= */
-.product-actions {
-    margin-bottom: 1.5rem;
-}
-
-.quantity-selector {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.quantity-controls {
-    display: flex;
-    border: 1px solid rgba(0, 255, 136, 0.2);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-}
-
-.qty-btn {
-    width: 40px;
-    height: 40px;
-    background: var(--bg-darker);
-    border: none;
-    color: var(--primary-color);
-    cursor: pointer;
-    transition: var(--transition-fast);
-}
-
-.qty-btn:hover {
-    background: var(--primary-color);
-    color: var(--bg-dark);
-}
-
-#quantity {
-    width: 60px;
-    text-align: center;
-    border: none;
-    background: var(--bg-card);
-    color: var(--text-primary);
-}
-
-/* ================= BUTTONS ================= */
-.action-buttons {
-    display: flex;
-    gap: 1rem;
-}
-
-.btn-add-cart,
-.btn-buy-now {
-    flex: 1;
-    padding: 1rem;
-    font-size: 1.125rem;
-    font-weight: 600;
-}
-
-/* ================= EXTRA ================= */
-.extra-actions {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.btn-wishlist,
-.btn-share {
-    flex: 1;
-    background: var(--bg-card);
-    border: 1px solid rgba(0, 255, 136, 0.2);
-    padding: 0.75rem;
-    border-radius: var(--radius-md);
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    transition: var(--transition-fast);
-}
-
-.btn-wishlist:hover,
-.btn-share:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-/* ================= POLICIES ================= */
-.product-policies {
-    background: var(--bg-card);
-    border: 1px solid rgba(0, 255, 136, 0.1);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-}
-
-.policy-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    color: var(--text-secondary);
-}
-
-.policy-item:last-child {
-    margin-bottom: 0;
-}
-
-.policy-item i {
-    color: var(--primary-color);
-    font-size: 1.25rem;
-}
-
-/* ================= TABS ================= */
-.product-details-tabs {
-    background: var(--bg-card);
-    border: 1px solid rgba(0, 255, 136, 0.1);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-}
-
-.nav-tabs {
-    border-bottom: 2px solid rgba(0, 255, 136, 0.1);
-}
-
-.nav-tabs .nav-link {
-    color: var(--text-secondary);
-    border: none;
-    padding: 1rem 1.5rem;
-}
-
-.nav-tabs .nav-link:hover,
-.nav-tabs .nav-link.active {
-    color: var(--primary-color);
-    background: transparent;
-    border-bottom: 2px solid var(--primary-color);
-}
-
-.tab-content-wrapper {
-    padding: 2rem 0;
-}
-
-/* ================= SPECS ================= */
-.specs-table {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.spec-row {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    padding: 1rem;
-    background: var(--bg-darker);
-    border-radius: var(--radius-sm);
-}
-
-.spec-row:nth-child(even) {
-    background: var(--bg-card);
-}
-
-/* ================= RATING ================= */
-.rating-summary {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 3rem;
-    padding: 2rem;
-    background: var(--bg-darker);
-    border-radius: var(--radius-md);
-}
-
-/* ================= REVIEWS ================= */
-.review-item {
-    padding: 1.5rem;
-    background: var(--bg-darker);
-    border-radius: var(--radius-md);
-    margin-bottom: 1rem;
-}
-
-/* ================= RELATED ================= */
-.related-products-section {
-    padding: 2rem;
-    background: var(--bg-card);
-    border: 1px solid rgba(0, 255, 136, 0.1);
-    border-radius: var(--radius-lg);
-}
-
-/* ================= RESPONSIVE ================= */
-@media (max-width: 991px) {
-    .product-images-wrapper {
-        position: static;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-    }
-
-    .rating-summary {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .thumbnail-item {
-        width: 60px;
-        height: 60px;
-    }
-
-    .current-price {
-        font-size: 1.75rem;
-    }
-
-    .review-header {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .nav-tabs {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-    }
-}
-</style>

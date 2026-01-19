@@ -15,23 +15,88 @@
             --text-primary: #ffffff;
             --text-secondary: #b0b8d4;
         }
-        body { background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); color: var(--text-primary); }
-        .hero { padding: 6rem 0; text-align: center; }
-        .hero h1 { font-size: 3rem; font-weight: 700; background: linear-gradient(135deg, var(--primary-color), #00ccff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem; }
-        .hero p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; }
-        .products-section { padding: 3rem 0; }
-        .section-title { text-align: center; margin-bottom: 3rem; }
-        .section-title h2 { font-size: 2.5rem; color: var(--text-primary); margin-bottom: 0.5rem; }
-        .section-title p { color: var(--text-secondary); }
-        .product-card { background: var(--bg-card); border: 1px solid rgba(0, 255, 136, 0.2); border-radius: 10px; padding: 1.5rem; transition: all 0.3s ease; text-align: center; }
-        .product-card:hover { border-color: var(--primary-color); transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0, 255, 136, 0.2); }
-        .product-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; }
-        .product-card h5 { color: var(--text-primary); margin: 1rem 0; }
-        .product-price { font-size: 1.5rem; color: var(--primary-color); font-weight: 700; }
-        .btn-primary { background: linear-gradient(135deg, var(--primary-color), #00ccff); border: none; color: var(--bg-dark); font-weight: 600; transition: all 0.3s ease; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 255, 136, 0.3); color: var(--bg-dark); }
-        .footer { background: var(--bg-card); border-top: 1px solid rgba(0, 255, 136, 0.2); padding: 3rem 0; margin-top: 3rem; }
-        .footer p { color: var(--text-secondary); }
+        body { 
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%); 
+            color: var(--text-primary); 
+        }
+        .hero { 
+            padding: 6rem 0; 
+            text-align: center; 
+        }
+        .hero h1 { 
+            font-size: 3rem; 
+            font-weight: 700; 
+            background: linear-gradient(135deg, var(--primary-color), #00ccff); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            margin-bottom: 1.5rem; 
+        }
+        .hero p { 
+            font-size: 1.2rem; 
+            color: var(--text-secondary); 
+            margin-bottom: 2rem; 
+        }
+        .section-title { 
+            text-align: center; 
+            margin-bottom: 3rem; 
+        }
+        .section-title h2 { 
+            font-size: 2.5rem; 
+            color: var(--text-primary); 
+            margin-bottom: 0.5rem; 
+        }
+        .product-card { 
+            background: var(--bg-card); 
+            border: 1px solid rgba(0, 255, 136, 0.2); 
+            border-radius: 10px; 
+            padding: 1.5rem; 
+            transition: all 0.3s ease; 
+            text-align: center; 
+            height: 100%;
+        }
+        .product-card:hover { 
+            border-color: var(--primary-color); 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 24px rgba(0, 255, 136, 0.2); 
+        }
+        .product-card img { 
+            width: 100%; 
+            height: 200px; 
+            object-fit: cover; 
+            border-radius: 8px; 
+            margin-bottom: 1rem; 
+        }
+        .product-card h5 { 
+            color: var(--text-primary); 
+            margin: 1rem 0; 
+            min-height: 48px;
+        }
+        .product-price { 
+            font-size: 1.5rem; 
+            color: var(--primary-color); 
+            font-weight: 700; 
+        }
+        .product-price-old {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            margin-right: 0.5rem;
+        }
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--primary-color), #00ccff); 
+            border: none; 
+            color: var(--bg-dark); 
+            font-weight: 600; 
+            transition: all 0.3s ease; 
+        }
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.3); 
+            color: var(--bg-dark); 
+        }
+        .products-section { 
+            padding: 3rem 0; 
+        }
     </style>
 </head>
 <body>
@@ -50,19 +115,29 @@
     </section>
 
     <!-- Hot Products -->
-    <section class="products-section" th:if="${hotProducts != null and hotProducts.size() > 0}">
+    <section class="products-section" th:if="${hotProducts != null and !hotProducts.isEmpty()}">
         <div class="container">
             <div class="section-title">
-                <h2>Sản phẩm đang giảm giá</h2>
+                <h2>🔥 Sản phẩm đang giảm giá</h2>
                 <p>Những sản phẩm tốt nhất với mức giá hấp dẫn</p>
             </div>
             <div class="row g-4">
                 <div class="col-lg-3 col-md-6" th:each="product : ${hotProducts}">
                     <div class="product-card">
-                        <img th:src="${product.imageUrl}" th:alt="${product.name}" 
-                             src="https://via.placeholder.com/250x250/0a0e27/00ff88?text=Gaming">
+                        <img th:src="${product.imageUrl}" 
+                             th:alt="${product.name}"
+                             onerror="this.src='https://via.placeholder.com/200x200/0a0e27/00ff88?text=Gaming'">
                         <h5 th:text="${product.name}">Gaming Product</h5>
-                        <p class="product-price" th:text="${product.finalPrice} + '₫'">1,000,000₫</p>
+                        <div>
+                            <span class="product-price-old" th:if="${product.discountPrice != null}"
+                                  th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')} + '₫'">
+                                1,590,000₫
+                            </span>
+                            <p class="product-price" 
+                               th:text="${#numbers.formatInteger(product.getFinalPrice(), 0, 'COMMA')} + '₫'">
+                                1,290,000₫
+                            </p>
+                        </div>
                         <a th:href="@{'/san-pham/' + ${product.id}}" class="btn btn-sm btn-primary w-100">
                             <i class="fas fa-eye"></i> Xem chi tiết
                         </a>
@@ -73,24 +148,56 @@
     </section>
 
     <!-- Best Sellers -->
-    <section class="products-section" th:if="${bestSellers != null and bestSellers.size() > 0}">
+    <section class="products-section" th:if="${bestSellers != null and !bestSellers.isEmpty()}">
         <div class="container">
             <div class="section-title">
-                <h2>Sản phẩm bán chạy</h2>
+                <h2>⭐ Sản phẩm bán chạy</h2>
                 <p>Những sản phẩm yêu thích của khách hàng</p>
             </div>
             <div class="row g-4">
                 <div class="col-lg-3 col-md-6" th:each="product : ${bestSellers}">
                     <div class="product-card">
-                        <img th:src="${product.imageUrl}" th:alt="${product.name}"
-                             src="https://via.placeholder.com/250x250/0a0e27/00ff88?text=Gaming">
+                        <img th:src="${product.imageUrl}" 
+                             th:alt="${product.name}"
+                             onerror="this.src='https://via.placeholder.com/200x200/0a0e27/00ff88?text=Gaming'">
                         <h5 th:text="${product.name}">Gaming Product</h5>
-                        <p class="product-price" th:text="${product.finalPrice} + '₫'">1,000,000₫</p>
+                        <div>
+                            <span class="product-price-old" th:if="${product.discountPrice != null}"
+                                  th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')} + '₫'">
+                                1,590,000₫
+                            </span>
+                            <p class="product-price" 
+                               th:text="${#numbers.formatInteger(product.getFinalPrice(), 0, 'COMMA')} + '₫'">
+                                1,290,000₫
+                            </p>
+                        </div>
                         <a th:href="@{'/san-pham/' + ${product.id}}" class="btn btn-sm btn-primary w-100">
                             <i class="fas fa-eye"></i> Xem chi tiết
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Empty State -->
+    <section class="products-section" th:if="${(hotProducts == null or hotProducts.isEmpty()) and (bestSellers == null or bestSellers.isEmpty())}">
+        <div class="container text-center">
+            <div style="padding: 4rem 0;">
+                <i class="fas fa-box-open" style="font-size: 4rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                <h3>Chưa có sản phẩm nào</h3>
+                <p class="text-secondary">Vui lòng kiểm tra kết nối database và khởi động lại ứng dụng</p>
+                <div class="mt-3">
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                        <strong>Hướng dẫn:</strong><br>
+                        1. Kiểm tra SQL Server đã chạy chưa<br>
+                        2. Kiểm tra thông tin database trong application.properties<br>
+                        3. Restart ứng dụng để DataInitializer tạo dữ liệu mẫu
+                    </p>
+                </div>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/products}" class="btn btn-primary mt-3">
+                    <i class="fas fa-plus"></i> Vào trang quản trị
+                </a>
             </div>
         </div>
     </section>
@@ -108,514 +215,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-                                </h5>
-                                <div class="product-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span th:text="'(' + ${product.danhGiaTrungBinh} + ')'">(4.5)</span>
-                                </div>
-                                <div class="product-price-wrapper">
-                                    <span class="product-price-original" th:if="${product.giaGiam != null}">
-                                        <span th:text="${#numbers.formatInteger(product.giaSanPham, 0, 'COMMA')}">1,590,000</span>₫
-                                    </span>
-                                    <span class="product-price">
-                                        <span th:text="${#numbers.formatInteger(product.giaGiam != null ? product.giaGiam : product.giaSanPham, 0, 'COMMA')}">1,290,000</span>₫
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Fallback khi không có data từ backend -->
-                    <div class="col-lg-3 col-md-6" data-animate th:remove="all">
-                        <div class="product-card">
-                            <div class="product-card-img-wrapper">
-                                <span class="product-badge">-19%</span>
-                                <img src="https://via.placeholder.com/300x300/0a0e27/00ff88?text=Gaming+Mouse" alt="Product">
-                                <div class="product-quick-actions">
-                                    <button class="btn-quick-view"><i class="fas fa-eye"></i></button>
-                                    <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-card-body">
-                                <span class="product-brand">Logitech</span>
-                                <h5 class="product-title">Logitech G502 HERO</h5>
-                                <div class="product-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span>(4.5)</span>
-                                </div>
-                                <div class="product-price-wrapper">
-                                    <span class="product-price-original">1,590,000₫</span>
-                                    <span class="product-price">1,290,000₫</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center mt-5" data-animate>
-                    <a th:href="@{/san-pham}" class="btn btn-primary btn-lg">
-                        Xem tất cả sản phẩm
-                        <i class="fas fa-arrow-right ms-2"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- BRANDS SECTION -->
-        <section class="section brands-section">
-            <div class="container">
-                <div class="section-title" data-animate>
-                    <h2>Thương hiệu nổi tiếng</h2>
-                    <p>Đối tác chính hãng của chúng tôi</p>
-                </div>
-                <div class="brands-slider">
-                    <div class="brand-item">
-                        <img src="https://via.placeholder.com/150x80/0a0e27/00ff88?text=Logitech" alt="Logitech">
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://via.placeholder.com/150x80/0a0e27/00ff88?text=Razer" alt="Razer">
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://via.placeholder.com/150x80/0a0e27/00ff88?text=Corsair" alt="Corsair">
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://via.placeholder.com/150x80/0a0e27/00ff88?text=SteelSeries" alt="SteelSeries">
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://via.placeholder.com/150x80/0a0e27/00ff88?text=HyperX" alt="HyperX">
-                    </div>
-                    <div class="brand-item">
-                        <img src="https://via.placeholder.com/150x80/0a0e27/00ff88?text=ASUS" alt="ASUS ROG">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- WHY CHOOSE US -->
-        <section class="section why-choose-section">
-            <div class="container">
-                <div class="section-title" data-animate>
-                    <h2>Tại sao chọn chúng tôi?</h2>
-                    <p>Những lý do bạn nên mua sắm tại Gaming Shop</p>
-                </div>
-                <div class="row g-4">
-                    <div class="col-lg-3 col-md-6" data-animate>
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <h4>Chính hãng 100%</h4>
-                            <p>Cam kết sản phẩm chính hãng, có tem bảo hành đầy đủ</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6" data-animate>
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-shipping-fast"></i>
-                            </div>
-                            <h4>Giao hàng nhanh</h4>
-                            <p>Miễn phí ship đơn từ 500K, giao hàng trong 24h</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6" data-animate>
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-sync-alt"></i>
-                            </div>
-                            <h4>Đổi trả dễ dàng</h4>
-                            <p>Đổi trả trong 7 ngày nếu sản phẩm lỗi</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6" data-animate>
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-headset"></i>
-                            </div>
-                            <h4>Hỗ trợ 24/7</h4>
-                            <p>Đội ngũ tư vấn nhiệt tình, sẵn sàng hỗ trợ</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- NEWSLETTER -->
-        <section class="newsletter-section">
-            <div class="container">
-                <div class="newsletter-card">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6" data-animate>
-                            <div class="newsletter-content">
-                                <h3 class="newsletter-title">
-                                    <i class="fas fa-envelope-open-text me-3"></i>
-                                    Đăng ký nhận tin
-                                </h3>
-                                <p class="newsletter-subtitle">
-                                    Nhận thông tin về sản phẩm mới và ưu đãi đặc biệt
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-lg-6" data-animate>
-                            <form class="newsletter-form">
-                                <div class="input-group">
-                                    <input type="email" class="form-control" placeholder="Nhập email của bạn..." required>
-                                    <button class="btn btn-primary" type="submit">
-                                        Đăng ký
-                                        <i class="fas fa-paper-plane ms-2"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </th:block>
-</body>
-</html>
-
-<style>
-/* Hero Section */
-.hero-section {
-    position: relative;
-    padding: 4rem 0;
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 50%, var(--bg-darker) 100%);
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 30% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
-    pointer-events: none;
-}
-
-.min-vh-70 {
-    min-height: 70vh;
-}
-
-.hero-subtitle {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--primary-color), var(--neon-blue));
-    padding: 0.5rem 1.5rem;
-    border-radius: 50px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 1.5rem;
-    color: var(--bg-dark);
-}
-
-.hero-title {
-    font-size: 3.5rem;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-}
-
-.hero-description {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-    max-width: 500px;
-}
-
-.hero-stats {
-    display: flex;
-    gap: 3rem;
-    margin-top: 3rem;
-}
-
-.stat-item {
-    text-align: center;
-}
-
-.stat-number {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--primary-color), var(--neon-blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.stat-label {
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-}
-
-.hero-image-wrapper {
-    position: relative;
-}
-
-.floating-badge {
-    position: absolute;
-    background: var(--bg-card);
-    border: 1px solid var(--primary-color);
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    animation: float 3s ease-in-out infinite;
-}
-
-.floating-badge i {
-    color: var(--primary-color);
-    font-size: 1.5rem;
-}
-
-.badge-1 { top: 10%; right: -10%; animation-delay: 0s; }
-.badge-2 { bottom: 30%; left: -15%; animation-delay: 1s; }
-.badge-3 { top: 50%; right: -5%; animation-delay: 2s; }
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-/* Flash Sale Banner */
-.flash-sale-banner {
-    margin: -2rem 0 3rem 0;
-}
-
-.flash-sale-card {
-    background: linear-gradient(135deg, var(--accent-color), var(--neon-purple));
-    padding: 1.5rem;
-    border-radius: var(--radius-lg);
-    box-shadow: 0 8px 32px rgba(255, 0, 110, 0.4);
-}
-
-.flash-icon {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.flash-icon i {
-    font-size: 2.5rem;
-    animation: pulse 1s infinite;
-}
-
-.countdown-timer {
-    text-align: center;
-}
-
-.timer-display {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-/* Category Card */
-.category-card {
-    display: block;
-    background: var(--bg-card);
-    border: 1px solid rgba(0, 255, 136, 0.1);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    text-align: center;
-    transition: var(--transition-normal);
-    position: relative;
-    overflow: hidden;
-}
-
-.category-card:hover {
-    border-color: var(--primary-color);
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-lg);
-}
-
-.category-icon {
-    font-size: 3.5rem;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.category-name {
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
-.category-count {
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-}
-
-.category-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, var(--primary-color), var(--neon-blue));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: var(--transition-normal);
-}
-
-.category-card:hover .category-overlay {
-    opacity: 1;
-}
-
-.category-link-text {
-    color: var(--bg-dark);
-    font-weight: 700;
-    font-size: 1.125rem;
-}
-
-/* Product Quick Actions */
-.product-quick-actions {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    gap: 1rem;
-    opacity: 0;
-    transition: var(--transition-normal);
-}
-
-.product-card:hover .product-quick-actions {
-    opacity: 1;
-}
-
-.btn-quick-view,
-.btn-add-cart {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: none;
-    background: var(--primary-color);
-    color: var(--bg-dark);
-    font-size: 1.125rem;
-    cursor: pointer;
-    transition: var(--transition-fast);
-}
-
-.btn-quick-view:hover,
-.btn-add-cart:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.5);
-}
-
-/* Brands Slider */
-.brands-slider {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.brand-item {
-    opacity: 0.6;
-    transition: var(--transition-fast);
-}
-
-.brand-item:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-.brand-item img {
-    height: 80px;
-    width: auto;
-    filter: grayscale(100%);
-    transition: var(--transition-fast);
-}
-
-.brand-item:hover img {
-    filter: grayscale(0%);
-}
-
-/* Feature Card */
-.feature-card {
-    text-align: center;
-    padding: 2rem;
-    background: var(--bg-card);
-    border: 1px solid rgba(0, 255, 136, 0.1);
-    border-radius: var(--radius-lg);
-    transition: var(--transition-normal);
-}
-
-.feature-card:hover {
-    border-color: var(--primary-color);
-    transform: translateY(-5px);
-}
-
-.feature-icon {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.feature-card h4 {
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-}
-
-.feature-card p {
-    color: var(--text-secondary);
-    margin: 0;
-}
-
-
-.newsletter-section {
-    margin: 3rem 0;
-}
-
-.newsletter-card {
-    background: var(--bg-card);
-    border: 1px solid var(--primary-color);
-    border-radius: var(--radius-lg);
-    padding: 3rem;
-}
-
-.newsletter-title {
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
-.newsletter-subtitle {
-    color: var(--text-secondary);
-    margin: 0;
-}
-
-.newsletter-form .form-control {
-    background: var(--bg-darker);
-    border: 1px solid rgba(0, 255, 136, 0.2);
-    color: var(--text-primary);
-    padding: 1rem 1.5rem;
-}
-
-.newsletter-form .form-control:focus {
-    background: var(--bg-darker);
-    border-color: var(--primary-color);
-    color: var(--text-primary);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .hero-title { font-size: 2rem; }
-    .hero-stats { gap: 1.5rem; }
-    .stat-number { font-size: 1.75rem; }
-    .floating-badge { display: none; }
-}
-</style>
