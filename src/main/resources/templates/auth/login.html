@@ -4,12 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập - Gaming Shop</title>
-    
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <style>
         :root {
             --primary-color: #00ff88;
@@ -17,12 +13,6 @@
             --bg-card: #1a1f3a;
             --text-primary: #ffffff;
             --text-secondary: #b0b8d4;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
         
         body {
@@ -47,7 +37,6 @@
             border-radius: 15px;
             padding: 40px 30px;
             box-shadow: 0 8px 32px rgba(0, 255, 136, 0.1);
-            backdrop-filter: blur(10px);
         }
         
         .login-header {
@@ -62,12 +51,6 @@
             background: linear-gradient(135deg, var(--primary-color), #00ccff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .login-header p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
         }
         
         .form-group {
@@ -79,7 +62,6 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--text-primary);
-            font-size: 0.95rem;
         }
         
         .form-control {
@@ -88,19 +70,14 @@
             border-radius: 8px;
             padding: 12px 16px;
             color: var(--text-primary);
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
+            width: 100%;
         }
         
         .form-control:focus {
             background: rgba(255, 255, 255, 0.08);
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+            outline: none;
             color: var(--text-primary);
-        }
-        
-        .form-control::placeholder {
-            color: var(--text-secondary);
         }
         
         .error-message {
@@ -110,10 +87,6 @@
             padding: 12px;
             margin-bottom: 20px;
             color: #ff6b6b;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .btn-login {
@@ -126,8 +99,7 @@
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
+            transition: 0.3s;
         }
         
         .btn-login:hover {
@@ -142,21 +114,9 @@
             border-top: 1px solid rgba(0, 255, 136, 0.1);
         }
         
-        .login-footer p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-        
         .login-footer a {
             color: var(--primary-color);
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .login-footer a:hover {
-            color: #00ccff;
-            text-decoration: underline;
         }
         
         .back-link {
@@ -165,14 +125,7 @@
             gap: 8px;
             color: var(--primary-color);
             text-decoration: none;
-            font-size: 0.95rem;
             margin-bottom: 30px;
-            transition: all 0.3s ease;
-        }
-        
-        .back-link:hover {
-            gap: 12px;
-            color: #00ccff;
         }
     </style>
 </head>
@@ -190,38 +143,31 @@
             </div>
             
             <!-- Error Message -->
-            <div th:if="${error}" class="error-message">
+            <div th:if="${param.error}" class="error-message">
                 <i class="fas fa-exclamation-circle"></i>
-                <span th:text="${error}"></span>
+                Tên đăng nhập hoặc mật khẩu không đúng!
+            </div>
+            
+            <div th:if="${param.logout}" class="alert alert-success">
+                Đã đăng xuất thành công!
             </div>
             
             <!-- Login Form -->
             <form method="POST" th:action="@{/auth/login}" class="login-form">
                 <div class="form-group">
                     <label for="username">
-                        <i class="fas fa-user"></i> Tên người dùng
+                        <i class="fas fa-user"></i> Tên đăng nhập
                     </label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        id="username" 
-                        name="username" 
-                        placeholder="Nhập tên người dùng"
-                        required 
-                        autofocus>
+                    <input type="text" class="form-control" id="username" name="username" 
+                           placeholder="Nhập tên đăng nhập" required autofocus>
                 </div>
                 
                 <div class="form-group">
                     <label for="password">
                         <i class="fas fa-lock"></i> Mật khẩu
                     </label>
-                    <input 
-                        type="password" 
-                        class="form-control" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Nhập mật khẩu"
-                        required>
+                    <input type="password" class="form-control" id="password" name="password" 
+                           placeholder="Nhập mật khẩu" required>
                 </div>
                 
                 <button type="submit" class="btn-login">
@@ -232,12 +178,10 @@
             <div class="login-footer">
                 <p>Chưa có tài khoản? <a th:href="@{/auth/register}">Đăng ký ngay</a></p>
                 <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);">
-                    Demo: admin / admin123
+                    <strong>Demo:</strong> admin / admin123 hoặc user / user123
                 </p>
             </div>
         </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

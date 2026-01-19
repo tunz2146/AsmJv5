@@ -2,75 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #00ff88;
-            --bg-dark: #0a0e27;
-            --bg-card: #1a1f3a;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b8d4;
-        }
-        .navbar { background: var(--bg-dark) !important; border-bottom: 1px solid rgba(0, 255, 136, 0.2); }
-        .navbar-brand { font-weight: 700; color: var(--primary-color) !important; font-size: 1.3rem; }
-        .nav-link { color: var(--text-secondary) !important; transition: color 0.3s; }
-        .nav-link:hover, .nav-link.active { color: var(--primary-color) !important; }
-    </style>
 </head>
 <body>
     <!-- Header Fragment -->
-    <header th:fragment="header" class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" th:href="@{/}">
-                <i class="fas fa-gamepad"></i> Gaming Shop
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/san-pham}">Sản phẩm</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="nav-link" th:href="@{/gio-hang}">Giỏ hàng</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <a class="nav-link" th:href="@{/auth/login}">Đăng nhập</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <a class="nav-link" th:href="@{/auth/register}">Đăng ký</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="nav-link" th:href="@{/auth/logout}">Đăng xuất</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </header>
-</body>
-</html>
-                                    <i class="fas fa-user-circle me-1"></i>
-                                    <span th:text="${#authentication.name}">User</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" th:href="@{/profile}">
-                                        <i class="fas fa-user me-2"></i>Tài khoản
-                                    </a></li>
-                                    <li><a class="dropdown-item" th:href="@{/orders}">
-                                        <i class="fas fa-shopping-bag me-2"></i>Đơn hàng
-                                    </a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" th:href="@{/logout}">
-                                        <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
-                                    </a></li>
-                                </ul>
-                            </div>
+    <header th:fragment="header" class="header-main">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start">
+                        <span class="text-secondary">
+                            <i class="fas fa-phone me-2"></i>Hotline: 1900.xxxx
+                        </span>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <!-- Hiển thị khi chưa đăng nhập -->
+                        <div sec:authorize="!isAuthenticated()">
+                            <a th:href="@{/auth/login}" class="text-secondary me-3">
+                                <i class="fas fa-sign-in-alt me-1"></i>Đăng nhập
+                            </a>
+                            <a th:href="@{/auth/register}" class="text-secondary">
+                                <i class="fas fa-user-plus me-1"></i>Đăng ký
+                            </a>
+                        </div>
+                        
+                        <!-- Hiển thị khi đã đăng nhập -->
+                        <div sec:authorize="isAuthenticated()">
+                            <span class="text-secondary me-3">
+                                <i class="fas fa-user me-1"></i>
+                                <span sec:authentication="name">User</span>
+                            </span>
+                            
+                            <!-- Nếu là ADMIN thì hiện link Admin -->
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/products}" 
+                               class="text-warning me-3">
+                                <i class="fas fa-cog me-1"></i>Quản trị
+                            </a>
+                            
+                            <a th:href="@{/auth/logout}" class="text-secondary">
+                                <i class="fas fa-sign-out-alt me-1"></i>Đăng xuất
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -98,12 +71,11 @@
                 <!-- Navbar Content -->
                 <div class="collapse navbar-collapse" id="navbarMain">
                     <!-- Search Bar -->
-                    <form class="search-form mx-auto" th:action="@{/san-pham}" method="get">
+                    <form class="search-form mx-auto" th:action="@{/san-pham/tim-kiem}" method="get">
                         <div class="input-group">
                             <input type="text" class="form-control search-input" 
-                                   name="search" 
-                                   placeholder="Tìm kiếm sản phẩm..."
-                                   aria-label="Search">
+                                   name="keyword" 
+                                   placeholder="Tìm kiếm sản phẩm...">
                             <button class="btn btn-search" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -113,56 +85,29 @@
                     <!-- Nav Links -->
                     <ul class="navbar-nav ms-auto align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/}" th:classappend="${#request.requestURI == '/' ? 'active' : ''}">
-                                <i class="fas fa-home me-1"></i>
-                                Trang chủ
-                            </a>
-                        </li>
-                        
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-th-large me-1"></i>
-                                Sản phẩm
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" th:href="@{/san-pham}">
-                                    <i class="fas fa-layer-group me-2"></i>Tất cả sản phẩm
-                                </a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" th:href="@{/san-pham/chuot-gaming}">
-                                    <i class="fas fa-mouse me-2"></i>Chuột Gaming
-                                </a></li>
-                                <li><a class="dropdown-item" th:href="@{/san-pham/ban-phim-co}">
-                                    <i class="fas fa-keyboard me-2"></i>Bàn Phím Cơ
-                                </a></li>
-                                <li><a class="dropdown-item" th:href="@{/san-pham/tai-nghe-gaming}">
-                                    <i class="fas fa-headphones me-2"></i>Tai Nghe Gaming
-                                </a></li>
-                                <li><a class="dropdown-item" th:href="@{/san-pham/mousepad}">
-                                    <i class="fas fa-border-none me-2"></i>Mousepad
-                                </a></li>
-                            </ul>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/khuyen-mai}">
-                                <i class="fas fa-fire me-1"></i>
-                                Khuyến mãi
+                            <a class="nav-link" th:href="@{/}">
+                                <i class="fas fa-home me-1"></i>Trang chủ
                             </a>
                         </li>
                         
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/lien-he}">
-                                <i class="fas fa-envelope me-1"></i>
-                                Liên hệ
+                            <a class="nav-link" th:href="@{/san-pham}">
+                                <i class="fas fa-th-large me-1"></i>Sản phẩm
                             </a>
                         </li>
                         
-                        <!-- Cart -->
-                        <li class="nav-item">
+                        <!-- Giỏ hàng (cần đăng nhập) -->
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
                             <a class="nav-link cart-link" th:href="@{/gio-hang}">
                                 <i class="fas fa-shopping-cart"></i>
-                                <span class="cart-count" th:text="${cartCount != null ? cartCount : 0}">0</span>
+                                <span class="cart-count">0</span>
+                            </a>
+                        </li>
+                        
+                        <!-- Nút đăng nhập nếu chưa đăng nhập -->
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link" th:href="@{/auth/login}">
+                                <i class="fas fa-sign-in-alt me-1"></i>Đăng nhập
                             </a>
                         </li>
                     </ul>
@@ -171,30 +116,27 @@
         </nav>
     </header>
     
-    <!-- Header Styles -->
     <style>
+        :root {
+            --primary-color: #00ff88;
+            --bg-dark: #0a0e27;
+            --bg-card: #1a1f3a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b8d4;
+        }
+        
         /* Top Bar */
         .top-bar {
-            background: var(--bg-darker);
+            background: var(--bg-dark);
             padding: 0.5rem 0;
             font-size: 0.875rem;
             border-bottom: 1px solid rgba(0, 255, 136, 0.1);
         }
         
-        .top-bar-left,
-        .top-bar-right {
-            display: flex;
-            align-items: center;
-        }
-        
-        .top-bar-right {
-            justify-content: flex-end;
-        }
-        
         .top-bar a {
             color: var(--text-secondary);
             text-decoration: none;
-            transition: var(--transition-fast);
+            transition: 0.3s;
         }
         
         .top-bar a:hover {
@@ -206,16 +148,9 @@
             background: var(--bg-card);
             padding: 1rem 0;
             border-bottom: 1px solid rgba(0, 255, 136, 0.1);
-            transition: all var(--transition-normal);
             position: sticky;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        
-        .navbar-scrolled {
-            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.2);
-            background: rgba(20, 27, 52, 0.95);
         }
         
         /* Logo */
@@ -231,145 +166,79 @@
         .logo i {
             font-size: 2rem;
             color: var(--primary-color);
-            animation: pulse 2s infinite;
         }
         
         .logo-text {
             color: var(--text-primary);
         }
         
-        /* Search Form */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary-color), #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Search */
         .search-form {
-            max-width: 500px;
+            max-width: 400px;
             width: 100%;
         }
         
         .search-input {
-            background: var(--bg-darker);
+            background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(0, 255, 136, 0.2);
             color: var(--text-primary);
-            padding: 0.75rem 1rem;
         }
         
         .search-input:focus {
-            background: var(--bg-darker);
+            background: rgba(0, 0, 0, 0.5);
             border-color: var(--primary-color);
             color: var(--text-primary);
-            box-shadow: 0 0 0 0.2rem rgba(0, 255, 136, 0.25);
-        }
-        
-        .search-input::placeholder {
-            color: var(--text-muted);
         }
         
         .btn-search {
-            background: linear-gradient(135deg, var(--primary-color), var(--neon-blue));
+            background: linear-gradient(135deg, var(--primary-color), #00ccff);
             border: none;
             color: var(--bg-dark);
-            padding: 0.75rem 1.5rem;
-        }
-        
-        .btn-search:hover {
-            opacity: 0.9;
         }
         
         /* Nav Links */
         .nav-link {
             color: var(--text-secondary);
-            font-weight: 500;
+            transition: 0.3s;
             padding: 0.5rem 1rem;
-            transition: var(--transition-fast);
-            position: relative;
         }
         
-        .nav-link:hover,
-        .nav-link.active {
+        .nav-link:hover {
             color: var(--primary-color);
         }
         
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--primary-color);
-            transform: translateX(-50%);
-            transition: var(--transition-fast);
-        }
-        
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 80%;
-        }
-        
-        /* Dropdown */
-        .dropdown-menu {
-            background: var(--bg-card);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: var(--radius-md);
-            padding: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        
-        .dropdown-item {
-            color: var(--text-secondary);
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius-sm);
-            transition: var(--transition-fast);
-        }
-        
-        .dropdown-item:hover {
-            background: var(--bg-darker);
-            color: var(--primary-color);
-        }
-        
-        .dropdown-divider {
-            border-color: rgba(0, 255, 136, 0.1);
-        }
-        
-        /* Cart Link */
+        /* Cart */
         .cart-link {
             position: relative;
-            font-size: 1.25rem;
         }
         
         .cart-count {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: var(--accent-color);
-            color: var(--text-primary);
+            background: #ff006e;
+            color: white;
             font-size: 0.75rem;
-            font-weight: 700;
             padding: 0.125rem 0.375rem;
             border-radius: 50%;
             min-width: 20px;
             text-align: center;
         }
         
-        .pulse-animate {
-            animation: pulse 0.6s;
-        }
-        
-        
         @media (max-width: 991px) {
             .search-form {
                 margin: 1rem 0;
                 max-width: 100%;
             }
-            
-            .top-bar-left,
-            .top-bar-right {
-                justify-content: center;
-                margin: 0.25rem 0;
-            }
-            
-            .navbar-nav {
-                margin-top: 1rem;
-            }
         }
     </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

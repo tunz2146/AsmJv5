@@ -1,6 +1,5 @@
 package edu.poly.ASM.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -35,36 +34,41 @@ public class SecurityConfig {
     }
 
     @Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-        .authenticationProvider(authenticationProvider())
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(authz -> authz
-            // ✅ CHO PHÉP TẤT CẢ XEM SẢN PHẨM
-            .requestMatchers("/", "/home").permitAll()
-            .requestMatchers("/san-pham", "/san-pham/**").permitAll()
-            .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()
-            .requestMatchers("/auth/**").permitAll()
-            
-            // ✅ ADMIN PAGES - CẦN ROLE ADMIN
-            .requestMatchers("/admin/**").hasRole("ADMIN")
-            
-            // ✅ CẦN ĐĂNG NHẬP MỚI DÙNG ĐƯỢC
-            .requestMatchers("/gio-hang/**").authenticated()
-            .requestMatchers("/don-hang/**").authenticated()
-            
-            .anyRequest().authenticated()
-        )
-        .formLogin(form -> form
-            .loginPage("/auth/login")
-            .defaultSuccessUrl("/", true)
-            .permitAll()
-        )
-        .logout(logout -> logout
-            .logoutUrl("/auth/logout")
-            .logoutSuccessUrl("/")
-        );
-    
-    return http.build();
-}
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .authenticationProvider(authenticationProvider())
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(authz -> authz
+                // ✅ PUBLIC - Không cần đăng nhập
+                .requestMatchers("/", "/home", "/index").permitAll()
+                .requestMatchers("/san-pham", "/san-pham/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()
+                .requestMatchers("/auth/login", "/auth/register").permitAll()
+                
+                // ✅ ADMIN - Chỉ ADMIN mới vào được
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                
+                // ✅ USER - Phải đăng nhập
+                .requestMatchers("/gio-hang/**", "/don-hang/**", "/profile/**").authenticated()
+                
+                // Các request khác cần đăng nhập
+                .anyRequest().authenticated()
+            )
+            .formLogin(form -> form
+                .loginPage("/auth/login")
+                .loginProcessingUrl("/auth/login")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/auth/login?error=true")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/auth/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+            );
+        
+        return http.build();
+    }
 }
