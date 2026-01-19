@@ -26,6 +26,13 @@ public class ProductService {
     }
     
     /**
+     * Lấy tất cả sản phẩm đang hoạt động (không phân trang) - để hiển thị trên trang chủ
+     */
+    public List<Product> getAllProducts() {
+        return productRepository.findByIsActive(true);
+    }
+    
+    /**
      * Tìm sản phẩm theo tên
      */
     public Page<Product> searchProducts(String name, int page, int size) {

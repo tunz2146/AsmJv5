@@ -23,13 +23,21 @@ public String home(Model model) {
     try {
         // Lấy 8 sản phẩm giảm giá
         List<Product> hotProducts = productService.getHotProducts(8);
+        if (hotProducts == null || hotProducts.isEmpty()) {
+            hotProducts = productService.getAllProducts().stream().limit(8).toList();
+        }
         model.addAttribute("hotProducts", hotProducts);
         
-        // Lấy 8 sản phẩm mới nhất
+        // Lấy 8 sản phẩm bán chạy
         List<Product> bestSellers = productService.getBestSellers(8);
+        if (bestSellers == null || bestSellers.isEmpty()) {
+            bestSellers = productService.getAllProducts().stream().limit(8).toList();
+        }
         model.addAttribute("bestSellers", bestSellers);
+        
+        System.out.println("✅ Home page loaded with " + hotProducts.size() + " hot products");
     } catch (Exception e) {
-        System.out.println("Lỗi load sản phẩm: " + e.getMessage());
+        System.out.println("❌ Lỗi load sản phẩm: " + e.getMessage());
         e.printStackTrace();
     }
     

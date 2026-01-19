@@ -23,6 +23,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Lấy tất cả sản phẩm đang active
     Page<Product> findByIsActive(Boolean isActive, Pageable pageable);
     
+    // Lấy tất cả sản phẩm đang active (không phân trang)
+    List<Product> findByIsActive(Boolean isActive);
+    
     // Lấy sản phẩm đang giảm giá (hot products) - trả về List<Product>
     @Query("SELECT p FROM Product p WHERE p.isActive = true AND p.discountPrice IS NOT NULL AND p.discountPrice > 0 ORDER BY p.discountPrice DESC")
     List<Product> findHotProducts(Pageable pageable);

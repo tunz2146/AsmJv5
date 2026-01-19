@@ -14,4 +14,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     
     // Lấy danh mục đang hoạt động
     Page<Category> findByIsActive(Boolean isActive, Pageable pageable);
+    
+    // Lấy tất cả danh mục đang hoạt động (không phân trang)
+    java.util.List<Category> findByIsActive(Boolean isActive);
 }

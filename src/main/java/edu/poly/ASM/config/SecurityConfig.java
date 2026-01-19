@@ -43,8 +43,11 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             // ✅ CHO PHÉP TẤT CẢ XEM SẢN PHẨM
             .requestMatchers("/", "/home").permitAll()
             .requestMatchers("/san-pham", "/san-pham/**").permitAll()
-            .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+            .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()
             .requestMatchers("/auth/**").permitAll()
+            
+            // ✅ ADMIN PAGES - CẦN ROLE ADMIN
+            .requestMatchers("/admin/**").hasRole("ADMIN")
             
             // ✅ CẦN ĐĂNG NHẬP MỚI DÙNG ĐƯỢC
             .requestMatchers("/gio-hang/**").authenticated()
