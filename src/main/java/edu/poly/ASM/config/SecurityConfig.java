@@ -15,8 +15,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -32,46 +35,33 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(authz -> authz
-                // Cho phép truy cập công khai (xem sản phẩm, trang chủ, tài nguyên tĩnh)
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/san-pham").permitAll()           // Danh sách sản phẩm
-                .requestMatchers("/san-pham/tim-kiem").permitAll()  // Tìm kiếm
-                .requestMatchers("/san-pham/{id}").permitAll()      // Chi tiết sản phẩm
-                .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**").permitAll()
-                
-                // Cho phép đăng ký/đăng nhập
-                .requestMatchers("/auth/**").permitAll()
-                
-                // Yêu cầu đăng nhập để sử dụng các chức năng
-                .requestMatchers("/gio-hang/**").authenticated()    // Giỏ hàng
-                .requestMatchers("/don-hang/**").authenticated()    // Đơn hàng
-                .requestMatchers("/profile/**").authenticated()     // Tài khoản
-                
-                // Admin panel
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                
-                // Các request còn lại cần xác thực
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/auth/login")
-                .loginProcessingUrl("/auth/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/auth/login?error")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/auth/logout")
-                .logoutSuccessUrl("/")
-                .permitAll()
-            );
-        
-        return http.build();
-    }
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .authenticationProvider(authenticationProvider())
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(authz -> authz
+            // ✅ CHO PHÉP TẤT CẢ XEM SẢN PHẨM
+            .requestMatchers("/", "/home").permitAll()
+            .requestMatchers("/san-pham", "/san-pham/**").permitAll()
+            .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+            .requestMatchers("/auth/**").permitAll()
+            
+            // ✅ CẦN ĐĂNG NHẬP MỚI DÙNG ĐƯỢC
+            .requestMatchers("/gio-hang/**").authenticated()
+            .requestMatchers("/don-hang/**").authenticated()
+            
+            .anyRequest().authenticated()
+        )
+        .formLogin(form -> form
+            .loginPage("/auth/login")
+            .defaultSuccessUrl("/", true)
+            .permitAll()
+        )
+        .logout(logout -> logout
+            .logoutUrl("/auth/logout")
+            .logoutSuccessUrl("/")
+        );
+    
+    return http.build();
+}
 }

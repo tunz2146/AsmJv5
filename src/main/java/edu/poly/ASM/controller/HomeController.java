@@ -1,5 +1,7 @@
 package edu.poly.ASM.controller;
 
+import java.util.List;
+import edu.poly.ASM.entity.Product;
 import edu.poly.ASM.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,17 +18,23 @@ public class HomeController {
     /**
      * Trang chủ - route "/"
      */
-    @GetMapping("/")
-    public String home(Model model) {
-        // Lấy sản phẩm hot (đang giảm giá)
-        model.addAttribute("hotProducts", productService.getHotProducts(8));
+@GetMapping("/")
+public String home(Model model) {
+    try {
+        // Lấy 8 sản phẩm giảm giá
+        List<Product> hotProducts = productService.getHotProducts(8);
+        model.addAttribute("hotProducts", hotProducts);
         
-        // Lấy sản phẩm bán chạy
-        model.addAttribute("bestSellers", productService.getBestSellers(8));
-        
-        model.addAttribute("pageTitle", "Trang chủ");
-        return "home";
+        // Lấy 8 sản phẩm mới nhất
+        List<Product> bestSellers = productService.getBestSellers(8);
+        model.addAttribute("bestSellers", bestSellers);
+    } catch (Exception e) {
+        System.out.println("Lỗi load sản phẩm: " + e.getMessage());
+        e.printStackTrace();
     }
+    
+    return "home";
+}
 
     /**
      * Trang chủ - route "/home"

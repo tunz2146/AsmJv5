@@ -2,32 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
     <!-- Footer Fragment -->
-    <footer th:fragment="footer" class="footer">
-        <div class="container">
-            <!-- Main Footer -->
-            <div class="footer-main">
-                <div class="row g-4">
-                    <!-- Column 1: About -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <div class="footer-logo mb-3">
-                                <i class="fas fa-gamepad"></i>
-                                <span class="logo-text">
-                                    GAMING<span class="text-gradient">SHOP</span>
-                                </span>
-                            </div>
-                            <p class="footer-desc">
-                                Chuyên cung cấp thiết bị gaming chính hãng: Chuột, Bàn phím, Tai nghe và phụ kiện gaming cao cấp.
-                            </p>
-                            <div class="social-links">
-                                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                                <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
-                                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
-                            </div>
-                        </div>
-                    </div>
+    <footer th:fragment="footer" class="footer bg-dark text-white mt-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Gaming Shop</h5>
+                    <p>Chuyên cung cấp thiết bị gaming chính hãng: Chuột, Bàn phím, Tai nghe và phụ kiện gaming cao cấp.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Liên kết</h5>
+                    <ul class="list-unstyled">
+                        <li><a th:href="@{/}" class="text-white-50">Trang chủ</a></li>
+                        <li><a th:href="@{/san-pham}" class="text-white-50">Sản phẩm</a></li>
+                        <li><a th:href="@{/lien-he}" class="text-white-50">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Liên hệ</h5>
+                    <p class="text-white-50">
+                        <i class="fas fa-phone"></i> Hotline: 1900.xxxx<br>
+                        <i class="fas fa-envelope"></i> Email: info@gamingshop.com
+                    </p>
+                </div>
+            </div>
+            <hr class="bg-white-50">
+            <div class="text-center">
+                <p class="text-white-50">&copy; 2026 Gaming Shop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
                     
                     <!-- Column 2: Quick Links -->
                     <div class="col-lg-3 col-md-6">

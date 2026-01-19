@@ -50,7 +50,7 @@
     </section>
 
     <!-- Hot Products -->
-    <section class="products-section">
+    <section class="products-section" th:if="${hotProducts != null and hotProducts.size() > 0}">
         <div class="container">
             <div class="section-title">
                 <h2>Sản phẩm đang giảm giá</h2>
@@ -59,10 +59,10 @@
             <div class="row g-4">
                 <div class="col-lg-3 col-md-6" th:each="product : ${hotProducts}">
                     <div class="product-card">
-                        <img th:src="@{'/images/products/' + ${product.imageUrl}}" th:alt="${product.name}" 
+                        <img th:src="${product.imageUrl}" th:alt="${product.name}" 
                              src="https://via.placeholder.com/250x250/0a0e27/00ff88?text=Gaming">
                         <h5 th:text="${product.name}">Gaming Product</h5>
-                        <p class="product-price" th:text="${#numbers.formatInteger(product.finalPrice, 0, 'COMMA')} + '₫'">1,000,000₫</p>
+                        <p class="product-price" th:text="${product.finalPrice} + '₫'">1,000,000₫</p>
                         <a th:href="@{'/san-pham/' + ${product.id}}" class="btn btn-sm btn-primary w-100">
                             <i class="fas fa-eye"></i> Xem chi tiết
                         </a>
@@ -73,7 +73,7 @@
     </section>
 
     <!-- Best Sellers -->
-    <section class="products-section">
+    <section class="products-section" th:if="${bestSellers != null and bestSellers.size() > 0}">
         <div class="container">
             <div class="section-title">
                 <h2>Sản phẩm bán chạy</h2>
@@ -82,10 +82,10 @@
             <div class="row g-4">
                 <div class="col-lg-3 col-md-6" th:each="product : ${bestSellers}">
                     <div class="product-card">
-                        <img th:src="@{'/images/products/' + ${product.imageUrl}}" th:alt="${product.name}"
+                        <img th:src="${product.imageUrl}" th:alt="${product.name}"
                              src="https://via.placeholder.com/250x250/0a0e27/00ff88?text=Gaming">
                         <h5 th:text="${product.name}">Gaming Product</h5>
-                        <p class="product-price" th:text="${#numbers.formatInteger(product.finalPrice, 0, 'COMMA')} + '₫'">1,000,000₫</p>
+                        <p class="product-price" th:text="${product.finalPrice} + '₫'">1,000,000₫</p>
                         <a th:href="@{'/san-pham/' + ${product.id}}" class="btn btn-sm btn-primary w-100">
                             <i class="fas fa-eye"></i> Xem chi tiết
                         </a>
@@ -108,196 +108,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-        
-        <!-- HERO BANNER -->
-        <section class="hero-section">
-            <div class="hero-overlay"></div>
-            <div class="container">
-                <div class="row align-items-center min-vh-70">
-                    <div class="col-lg-6" data-animate>
-                        <div class="hero-content">
-                            <span class="hero-subtitle animate-slideInLeft">
-                                <i class="fas fa-bolt"></i> Gaming Gear Store
-                            </span>
-                            <h1 class="hero-title animate-fadeInUp">
-                                NÂNG TẦM
-                                <span class="text-gradient">TRẢI NGHIỆM</span>
-                                GAMING
-                            </h1>
-                            <p class="hero-description animate-fadeInUp">
-                                Khám phá bộ sưu tập thiết bị gaming cao cấp từ các thương hiệu hàng đầu thế giới. 
-                                Chuột, bàn phím, tai nghe chính hãng với giá tốt nhất.
-                            </p>
-                            <div class="hero-buttons animate-fadeInUp">
-                                <a th:href="@{/san-pham}" class="btn btn-primary btn-lg me-3">
-                                    <i class="fas fa-shopping-bag me-2"></i>
-                                    Mua ngay
-                                </a>
-                                <a th:href="@{/khuyen-mai}" class="btn btn-outline btn-lg">
-                                    <i class="fas fa-fire me-2"></i>
-                                    Khuyến mãi hot
-                                </a>
-                            </div>
-                            <div class="hero-stats animate-fadeIn">
-                                <div class="stat-item">
-                                    <div class="stat-number">500+</div>
-                                    <div class="stat-label">Sản phẩm</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number">10K+</div>
-                                    <div class="stat-label">Khách hàng</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number">99%</div>
-                                    <div class="stat-label">Hài lòng</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6" data-animate>
-                        <div class="hero-image animate-slideInRight">
-                            <div class="hero-image-wrapper">
-                                <img src="https://via.placeholder.com/600x600/0a0e27/00ff88?text=GAMING+GEAR" 
-                                     alt="Gaming Gear"
-                                     class="img-fluid">
-                                <div class="floating-badge badge-1">
-                                    <i class="fas fa-mouse"></i>
-                                    <span>Chuột Gaming</span>
-                                </div>
-                                <div class="floating-badge badge-2">
-                                    <i class="fas fa-keyboard"></i>
-                                    <span>Bàn Phím Cơ</span>
-                                </div>
-                                <div class="floating-badge badge-3">
-                                    <i class="fas fa-headphones"></i>
-                                    <span>Tai Nghe</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FLASH SALE BANNER -->
-        <section class="flash-sale-banner">
-            <div class="container">
-                <div class="flash-sale-card">
-                    <div class="row align-items-center">
-                        <div class="col-md-3">
-                            <div class="flash-icon">
-                                <i class="fas fa-bolt"></i>
-                                <span>FLASH SALE</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-center">
-                            <h3 class="flash-title mb-2">Giảm giá sốc đến 50%</h3>
-                            <p class="flash-subtitle mb-0">Số lượng có hạn - Nhanh tay đặt hàng</p>
-                        </div>
-                        <div class="col-md-3 text-end">
-                            <div class="countdown-timer">
-                                <div class="timer-label">Kết thúc sau:</div>
-                                <div class="timer-display" id="flashSaleTimer">23:59:59</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CATEGORIES SECTION -->
-        <section class="section categories-section">
-            <div class="container">
-                <div class="section-title" data-animate>
-                    <h2>Danh mục sản phẩm</h2>
-                    <p>Khám phá các dòng sản phẩm gaming của chúng tôi</p>
-                </div>
-                <div class="row g-4">
-                    <div class="col-lg-3 col-md-6" data-animate>
-                        <a th:href="@{/san-pham/chuot-gaming}" class="category-card">
-                            <div class="category-icon">
-                                <i class="fas fa-mouse"></i>
-                            </div>
-                            <h4 class="category-name">Chuột Gaming</h4>
-                            <p class="category-count">120+ sản phẩm</p>
-                            <div class="category-overlay">
-                                <span class="category-link-text">Xem ngay <i class="fas fa-arrow-right ms-2"></i></span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6" data-animate>
-                        <a th:href="@{/san-pham/ban-phim-co}" class="category-card">
-                            <div class="category-icon">
-                                <i class="fas fa-keyboard"></i>
-                            </div>
-                            <h4 class="category-name">Bàn Phím Cơ</h4>
-                            <p class="category-count">80+ sản phẩm</p>
-                            <div class="category-overlay">
-                                <span class="category-link-text">Xem ngay <i class="fas fa-arrow-right ms-2"></i></span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6" data-animate>
-                        <a th:href="@{/san-pham/tai-nghe-gaming}" class="category-card">
-                            <div class="category-icon">
-                                <i class="fas fa-headphones"></i>
-                            </div>
-                            <h4 class="category-name">Tai Nghe Gaming</h4>
-                            <p class="category-count">65+ sản phẩm</p>
-                            <div class="category-overlay">
-                                <span class="category-link-text">Xem ngay <i class="fas fa-arrow-right ms-2"></i></span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6" data-animate>
-                        <a th:href="@{/san-pham/mousepad}" class="category-card">
-                            <div class="category-icon">
-                                <i class="fas fa-border-none"></i>
-                            </div>
-                            <h4 class="category-name">Mousepad</h4>
-                            <p class="category-count">45+ sản phẩm</p>
-                            <div class="category-overlay">
-                                <span class="category-link-text">Xem ngay <i class="fas fa-arrow-right ms-2"></i></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FEATURED PRODUCTS -->
-        <section class="section featured-products-section">
-            <div class="container">
-                <div class="section-title" data-animate>
-                    <h2>Sản phẩm nổi bật</h2>
-                    <p>Những sản phẩm được yêu thích nhất</p>
-                </div>
-                <div class="row g-4">
-                    <!-- Product Card 1 -->
-                    <div class="col-lg-3 col-md-6" data-animate th:each="product : ${featuredProducts}">
-                        <div class="product-card">
-                            <div class="product-card-img-wrapper">
-                                <span class="product-badge" th:if="${product.chietKhau > 0}">
-                                    -<span th:text="${product.chietKhau}">19</span>%
-                                </span>
-                                <img th:src="@{'/images/products/' + ${product.hinhAnh}}" 
-                                     th:alt="${product.tenSanPham}"
-                                     src="https://via.placeholder.com/300x300/0a0e27/00ff88?text=Gaming+Mouse">
-                                <div class="product-quick-actions">
-                                    <button class="btn-quick-view" th:onclick="'quickView(' + ${product.id} + ')'">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="btn-add-cart" th:onclick="'addToCart(' + ${product.id} + ', \'' + ${product.tenSanPham} + '\')'">
-                                        <i class="fas fa-shopping-cart"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="product-card-body">
-                                <span class="product-brand" th:text="${product.hang?.tenHang}">Logitech</span>
-                                <h5 class="product-title">
-                                    <a th:href="@{'/san-pham/' + ${product.slug}}" th:text="${product.tenSanPham}">
-                                        Logitech G502 HERO Gaming Mouse
-                                    </a>
                                 </h5>
                                 <div class="product-rating">
                                     <i class="fas fa-star"></i>
