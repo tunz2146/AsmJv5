@@ -130,6 +130,12 @@ public class Product {
         return (giaGiam != null && giaGiam.compareTo(BigDecimal.ZERO) > 0) ? 
                giaGiam : giaSanPham;
     }
+
+    @Transient
+    public BigDecimal getFinalPrice() {
+        return getGiaCuoiCung();
+    }
+
     
     // Kiểm tra còn hàng
     @Transient
