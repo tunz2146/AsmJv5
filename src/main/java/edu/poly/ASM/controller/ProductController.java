@@ -133,9 +133,10 @@ public class ProductController {
             }
             
             // Lấy sản phẩm liên quan (cùng danh mục)
-            List<Product> relatedProducts = productService.getProductsByCategory(
-                product.getCategory().getId(), 0, 4
-            ).getContent();
+            Category firstCategory = product.getFirstCategory();
+            List<Product> relatedProducts = firstCategory != null 
+                ? productService.getProductsByCategory(firstCategory.getId(), 0, 4).getContent()
+                : new java.util.ArrayList<>();
             
             model.addAttribute("product", product);
             model.addAttribute("relatedProducts", relatedProducts);

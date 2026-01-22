@@ -6,32 +6,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(name = "Loai_San_Pham")
+@Table(name = "Hang")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class Brand {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "ten", nullable = false)
-    private String ten;
+    @Column(name = "ten_hang", nullable = false)
+    private String tenHang;
     
     @Column(name = "slug", unique = true)
     private String slug;
     
+    @Column(name = "logo")
+    private String logo;
+    
     @Column(name = "mo_ta", columnDefinition = "NVARCHAR(MAX)")
     private String moTa;
-    
-    @Column(name = "hinh_anh", length = 500)
-    private String hinhAnh;
     
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -39,17 +37,12 @@ public class Category {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
-    // Many-to-Many với Product
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
-    private Set<Product> products = new HashSet<>();
-    
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-        
         if (slug == null || slug.isEmpty()) {
-            slug = createSlug(ten);
+            slug = createSlug(tenHang);
         }
     }
     
@@ -71,38 +64,5 @@ public class Category {
                    .replaceAll("[^a-z0-9\\s-]", "")
                    .trim()
                    .replaceAll("\\s+", "-");
-    }
-    
-    @Transient
-    public int getSoLuongSanPham() {
-        return products != null ? products.size() : 0;
-    }
-    
-    // Custom getters mapping English names to Vietnamese fields
-    public String getName() {
-        return this.ten;
-    }
-    
-    public void setName(String name) {
-        this.ten = name;
-    }
-    
-    public String getDescription() {
-        return this.moTa;
-    }
-    
-    public void setDescription(String description) {
-        this.moTa = description;
-    }
-    
-    public Boolean getIsActive() {
-        return true; // Category là active nếu tồn tại
-    }
-    
-    public void setIsActive(Boolean isActive) {
-        // Optional: Có thể thêm field isActive vào table nếu cần
-    }
-    public Long getId() {
-        return this.id;
     }
 }
