@@ -94,49 +94,36 @@ public class User {
     }
     
     // Lấy địa chỉ mặc định
-    @Transient
-    public Address getDiaChiMacDinh() {
-        return addresses.stream()
-            .filter(addr -> Boolean.TRUE.equals(addr.getMacDinh()))
-            .findFirst()
-            .orElse(null);
-    }
-
-    public String getDiaChiDayDu() {
-        return String.format("%s, %s, %s, %s, %s", 
-            diaChiChiTiet, phuongXa, quanHuyen, tinhThanh, "Việt Nam");
-    }
+    // @Transient
+    // public Address getDiaChiMacDinh() {
+    //     return addresses.stream()
+    //         .filter(addr -> Boolean.TRUE.equals(addr.getMacDinh()))
+    //         .findFirst()
+    //         .orElse(null);
+    // }
     
-    // Custom getters mapping English names to Vietnamese fields
+    // Custom getters for Spring Security
     public String getUsername() {
         return this.soDienThoai;
-    }
-    
-    public void setUsername(String username) {
-        this.soDienThoai = username;
     }
     
     public Boolean getIsActive() {
         return this.trangThai;
     }
-    
-    public void setIsActive(Boolean isActive) {
-        this.trangThai = isActive;
+
+    public String getSoDienThoai() {
+        return soDienThoai;
     }
-    
-    public String getFullName() {
-        return this.ten;
+
+    public String getPassword() {
+        return password;
     }
-    
-    public void setFullName(String fullName) {
-        this.ten = fullName;
+
+    public String getRole() {
+        return role;
     }
-    
-    public Boolean getMacDinh() {
-        return this.macDinh;
-    }
-    
-    public Long getId() {
-        return this.id;
+
+    public Boolean getTrangThai() {
+        return trangThai;
     }
 }

@@ -60,98 +60,98 @@ public class UserService {
     /**
      * Đăng ký user mới
      */
-    public UserDTO registerUser(UserDTO userDTO) {
-        // Kiểm tra số điện thoại đã tồn tại
-        if (userRepository.existsBySoDienThoai(userDTO.getSoDienThoai())) {
-            throw new RuntimeException("Số điện thoại đã được sử dụng");
-        }
+    // public UserDTO registerUser(UserDTO userDTO) {
+    //     // Kiểm tra số điện thoại đã tồn tại
+    //     if (userRepository.existsBySoDienThoai(userDTO.getSoDienThoai())) {
+    //         throw new RuntimeException("Số điện thoại đã được sử dụng");
+    //     }
         
-        // Kiểm tra email đã tồn tại
-        if (userDTO.getEmail() != null && userRepository.existsByEmail(userDTO.getEmail())) {
-            throw new RuntimeException("Email đã được sử dụng");
-        }
+    //     // Kiểm tra email đã tồn tại
+    //     if (userDTO.getEmail() != null && userRepository.existsByEmail(userDTO.getEmail())) {
+    //         throw new RuntimeException("Email đã được sử dụng");
+    //     }
         
-        User user = modelMapper.map(userDTO, User.class);
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setRole("USER");
-        user.setTrangThai(true);
+    //     User user = modelMapper.map(userDTO, User.class);
+    //     user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+    //     user.setRole("USER");
+    //     user.setTrangThai(true);
         
-        User saved = userRepository.save(user);
-        return modelMapper.map(saved, UserDTO.class);
-    }
+    //     User saved = userRepository.save(user);
+    //     return modelMapper.map(saved, UserDTO.class);
+    // }
     
-    /**
-     * Cập nhật thông tin user
-     */
-    public UserDTO updateUser(Long id, UserDTO userDTO) {
-        User user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Không tìm thấy user"));
+    // /**
+    //  * Cập nhật thông tin user
+    //  */
+    // public UserDTO updateUser(Long id, UserDTO userDTO) {
+    //     User user = userRepository.findById(id)
+    //         .orElseThrow(() -> new RuntimeException("Không tìm thấy user"));
         
-        user.setTen(userDTO.getTen());
-        user.setEmail(userDTO.getEmail());
-        user.setGioiTinh(userDTO.getGioiTinh());
-        user.setNgaySinh(userDTO.getNgaySinh());
-        user.setAvatar(userDTO.getAvatar());
+    //     user.setTen(userDTO.getTen());
+    //     user.setEmail(userDTO.getEmail());
+    //     user.setGioiTinh(userDTO.getGioiTinh());
+    //     user.setNgaySinh(userDTO.getNgaySinh());
+    //     user.setAvatar(userDTO.getAvatar());
         
-        User updated = userRepository.save(user);
-        return modelMapper.map(updated, UserDTO.class);
-    }
+    //     User updated = userRepository.save(user);
+    //     return modelMapper.map(updated, UserDTO.class);
+    // }
     
-    /**
-     * Đổi mật khẩu
-     */
-    public void changePassword(Long id, String oldPassword, String newPassword) {
-        User user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Không tìm thấy user"));
+    // /**
+    //  * Đổi mật khẩu
+    //  */
+    // public void changePassword(Long id, String oldPassword, String newPassword) {
+    //     User user = userRepository.findById(id)
+    //         .orElseThrow(() -> new RuntimeException("Không tìm thấy user"));
         
-        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new RuntimeException("Mật khẩu cũ không đúng");
-        }
+    //     if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+    //         throw new RuntimeException("Mật khẩu cũ không đúng");
+    //     }
         
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
-    }
+    //     user.setPassword(passwordEncoder.encode(newPassword));
+    //     userRepository.save(user);
+    // }
     
-    /**
-     * Khóa/Mở khóa user
-     */
-    public void toggleUserStatus(Long id) {
-        User user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Không tìm thấy user"));
+    // /**
+    //  * Khóa/Mở khóa user
+    //  */
+    // public void toggleUserStatus(Long id) {
+    //     User user = userRepository.findById(id)
+    //         .orElseThrow(() -> new RuntimeException("Không tìm thấy user"));
         
-        user.setTrangThai(!user.getTrangThai());
-        userRepository.save(user);
-    }
+    //     user.setTrangThai(!user.getTrangThai());
+    //     userRepository.save(user);
+    // }
     
-    /**
-     * Tìm kiếm user
-     */
-    public Page<UserDTO> searchUsers(String keyword, Pageable pageable) {
-        return userRepository.searchUsers(keyword, pageable)
-            .map(user -> modelMapper.map(user, UserDTO.class));
-    }
+    // /**
+    //  * Tìm kiếm user
+    //  */
+    // public Page<UserDTO> searchUsers(String keyword, Pageable pageable) {
+    //     return userRepository.searchUsers(keyword, pageable)
+    //         .map(user -> modelMapper.map(user, UserDTO.class));
+    // }
     
-    /**
-     * Lấy user theo role
-     */
-    public Page<UserDTO> getUsersByRole(String role, Pageable pageable) {
-        return userRepository.findByRole(role, pageable)
-            .map(user -> modelMapper.map(user, UserDTO.class));
-    }
+    // /**
+    //  * Lấy user theo role
+    //  */
+    // public Page<UserDTO> getUsersByRole(String role, Pageable pageable) {
+    //     return userRepository.findByRole(role, pageable)
+    //         .map(user -> modelMapper.map(user, UserDTO.class));
+    // }
     
-    /**
-     * Đếm số lượng user
-     */
-    public long countUsers() {
-        return userRepository.count();
-    }
+    // /**
+    //  * Đếm số lượng user
+    //  */
+    // public long countUsers() {
+    //     return userRepository.count();
+    // }
     
-    /**
-     * Đếm số lượng user theo role
-     */
-    public long countUsersByRole(String role) {
-        return userRepository.countByRole(role);
-    }
+    // /**
+    //  * Đếm số lượng user theo role
+    //  */
+    // public long countUsersByRole(String role) {
+    //     return userRepository.countByRole(role);
+    // }
 }
 
 

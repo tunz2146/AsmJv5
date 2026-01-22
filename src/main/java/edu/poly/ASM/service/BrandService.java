@@ -43,30 +43,30 @@ public class BrandService {
     /**
      * Tạo hãng mới
      */
-    public BrandDTO createBrand(BrandDTO brandDTO) {
-        if (brandRepository.existsByTenHang(brandDTO.getTenHang())) {
-            throw new RuntimeException("Tên hãng đã tồn tại");
-        }
+    // public BrandDTO createBrand(BrandDTO brandDTO) {
+    //     if (brandRepository.existsByTenHang(brandDTO.getTenHang())) {
+    //         throw new RuntimeException("Tên hãng đã tồn tại");
+    //     }
         
-        Brand brand = modelMapper.map(brandDTO, Brand.class);
-        Brand saved = brandRepository.save(brand);
-        return modelMapper.map(saved, BrandDTO.class);
-    }
+    //     Brand brand = modelMapper.map(brandDTO, Brand.class);
+    //     Brand saved = brandRepository.save(brand);
+    //     return modelMapper.map(saved, BrandDTO.class);
+    // }
     
     /**
      * Cập nhật hãng
      */
-    public BrandDTO updateBrand(Long id, BrandDTO brandDTO) {
-        Brand brand = brandRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Không tìm thấy hãng"));
+    // public BrandDTO updateBrand(Long id, BrandDTO brandDTO) {
+    //     Brand brand = brandRepository.findById(id)
+    //         .orElseThrow(() -> new RuntimeException("Không tìm thấy hãng"));
         
-        brand.setTenHang(brandDTO.getTenHang());
-        brand.setLogo(brandDTO.getLogo());
-        brand.setMoTa(brandDTO.getMoTa());
+    //     brand.setTenHang(brandDTO.getTenHang());
+    //     brand.setLogo(brandDTO.getLogo());
+    //     brand.setMoTa(brandDTO.getMoTa());
         
-        Brand updated = brandRepository.save(brand);
-        return modelMapper.map(updated, BrandDTO.class);
-    }
+    //     Brand updated = brandRepository.save(brand);
+    //     return modelMapper.map(updated, BrandDTO.class);
+    // }
     
     /**
      * Xóa hãng
