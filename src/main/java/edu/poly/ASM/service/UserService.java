@@ -154,6 +154,4 @@ public class UserService {
     }
 }
 
-git add .
-git commit -m "Initial commit ASM Java 5"
-git push -u origin main --force
+
