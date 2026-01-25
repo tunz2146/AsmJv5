@@ -13,7 +13,7 @@
     </parent>
     
     <groupId>edu.poly</groupId>
-    <artifactId>gaming-shop</artifactId>
+    <artifactId>ASM</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>GamingShop</name>
@@ -85,17 +85,17 @@
             <scope>test</scope>
         </dependency>
         
-        <!-- Spring Security (Comment tạm thời, sẽ dùng sau) -->
-        <!--
+        <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        
+        <!-- Thymeleaf Extras Spring Security -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
-        -->
     </dependencies>
     
     <build>

@@ -237,19 +237,110 @@
             </div>
         </section>
         
-        <!-- Featured Products (Tạm thời dùng placeholder) -->
+        <!-- Featured Products - Sản phẩm mới nhất -->
         <section class="products-section py-5 bg-light">
             <div class="container">
                 <div class="section-header text-center mb-5">
-                    <h2 class="fw-bold display-5">Sản phẩm nổi bật</h2>
-                    <p class="text-muted">Những sản phẩm được yêu thích nhất</p>
+                    <h2 class="fw-bold display-5">
+                        <i class="bi bi-star-fill text-warning me-2"></i>
+                        Sản phẩm mới nhất
+                    </h2>
+                    <p class="text-muted">Những sản phẩm vừa ra mắt tại Gaming Shop</p>
                 </div>
                 
-                <div class="alert alert-info text-center">
-                    <i class="bi bi-info-circle me-2"></i>
-                    <strong>Danh sách sản phẩm sẽ được load từ database sau</strong>
+                <!-- Hiển thị nếu có sản phẩm -->
+                <div th:if="${latestProducts != null and !latestProducts.isEmpty()}" class="row g-4">
+                    <div th:each="product : ${latestProducts}" class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="product-card card h-100 border-0 shadow-sm">
+                            <!-- Product Image -->
+                            <div class="product-image position-relative">
+                                <img th:src="${product.hinhAnh != null ? '/images/products/' + product.hinhAnh : 'https://via.placeholder.com/300x300?text=No+Image'}" 
+                                     th:alt="${product.tenSanPham}"
+                                     class="card-img-top">
+                                
+                                <!-- Sale Badge -->
+                                <span th:if="${product.chietKhau != null and product.chietKhau > 0}" 
+                                      class="badge bg-danger position-absolute top-0 end-0 m-2">
+                                    -<span th:text="${product.chietKhau}"></span>%
+                                </span>
+                                
+                                <!-- Out of Stock Badge -->
+                                <span th:if="${product.tonKho == null or product.tonKho <= 0}" 
+                                      class="badge bg-secondary position-absolute top-0 start-0 m-2">
+                                    Hết hàng
+                                </span>
+                            </div>
+                            
+                            <!-- Product Body -->
+                            <div class="card-body">
+                                <!-- Brand -->
+                                <p class="text-muted small mb-1" th:if="${product.hang != null}">
+                                    <i class="bi bi-tag-fill me-1"></i>
+                                    <span th:text="${product.hang.tenHang}">Brand</span>
+                                </p>
+                                
+                                <!-- Product Name -->
+                                <h5 class="card-title mb-2">
+                                    <a th:href="@{'/products/' + ${product.slug}}" 
+                                       th:text="${product.tenSanPham}"
+                                       class="text-decoration-none text-dark">
+                                        Product Name
+                                    </a>
+                                </h5>
+                                
+                                <!-- Price -->
+                                <div class="price-section mb-3">
+                                    <span th:if="${product.chietKhau != null and product.chietKhau > 0}">
+                                        <span class="price-sale text-danger fw-bold fs-5">
+                                            [[${#numbers.formatInteger(product.giaSauGiam, 0, 'COMMA')}]]₫
+                                        </span>
+                                        <span class="price-original text-muted text-decoration-line-through small ms-2">
+                                            [[${#numbers.formatInteger(product.giaSanPham, 0, 'COMMA')}]]₫
+                                        </span>
+                                    </span>
+                                    <span th:unless="${product.chietKhau != null and product.chietKhau > 0}">
+                                        <span class="price-normal text-danger fw-bold fs-5">
+                                            [[${#numbers.formatInteger(product.giaSanPham, 0, 'COMMA')}]]₫
+                                        </span>
+                                    </span>
+                                </div>
+                                
+                                <!-- Actions -->
+                                <div class="d-grid gap-2">
+                                    <a th:href="@{'/products/' + ${product.slug}}" 
+                                       class="btn btn-outline-danger btn-sm">
+                                        <i class="bi bi-eye me-1"></i>Xem chi tiết
+                                    </a>
+                                    <button th:if="${product.tonKho != null and product.tonKho > 0}"
+                                            class="btn btn-danger btn-sm">
+                                        <i class="bi bi-cart-plus me-1"></i>Thêm vào giỏ
+                                    </button>
+                                    <button th:unless="${product.tonKho != null and product.tonKho > 0}"
+                                            class="btn btn-secondary btn-sm" disabled>
+                                        Hết hàng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hiển thị nếu không có sản phẩm -->
+                <div th:if="${latestProducts == null or latestProducts.isEmpty()}" 
+                     class="alert alert-warning text-center">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Chưa có sản phẩm nào</strong>
                     <br>
-                    <small class="text-muted">Hiện đang test layout và giao diện</small>
+                    <small class="text-muted">Vui lòng thêm dữ liệu vào database</small>
+                </div>
+                
+                <!-- View All Button -->
+                <div th:if="${latestProducts != null and !latestProducts.isEmpty()}" 
+                     class="text-center mt-4">
+                    <a href="/products" class="btn btn-danger btn-lg px-5">
+                        Xem tất cả sản phẩm
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
                 </div>
             </div>
         </section>

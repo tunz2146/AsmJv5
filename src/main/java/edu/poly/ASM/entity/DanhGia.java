@@ -15,8 +15,8 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Gio_Hang")
-public class GioHang {
+@Table(name = "Danh_Gia")
+public class DanhGia {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +30,14 @@ public class GioHang {
     @JoinColumn(name = "id_san_pham", nullable = false)
     private SanPham sanPham;
     
-    @Column(name = "so_luong")
-    private Integer soLuong = 1;
+    @Column(name = "diem_danh_gia")
+    private Integer diemDanhGia; // 1-5 stars
+    
+    @Column(name = "noi_dung", columnDefinition = "NVARCHAR(MAX)")
+    private String noiDung;
+    
+    @Column(name = "hinh_anh", columnDefinition = "NVARCHAR(MAX)")
+    private String hinhAnh; // JSON array
     
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -40,12 +46,13 @@ public class GioHang {
     private LocalDateTime updatedAt;
     
     // Constructors
-    public GioHang() {}
+    public DanhGia() {}
     
-    public GioHang(NguoiDung nguoiDung, SanPham sanPham, Integer soLuong) {
+    public DanhGia(NguoiDung nguoiDung, SanPham sanPham, Integer diemDanhGia, String noiDung) {
         this.nguoiDung = nguoiDung;
         this.sanPham = sanPham;
-        this.soLuong = soLuong;
+        this.diemDanhGia = diemDanhGia;
+        this.noiDung = noiDung;
     }
     
     @PrePersist
@@ -84,12 +91,28 @@ public class GioHang {
         this.sanPham = sanPham;
     }
     
-    public Integer getSoLuong() {
-        return soLuong;
+    public Integer getDiemDanhGia() {
+        return diemDanhGia;
     }
     
-    public void setSoLuong(Integer soLuong) {
-        this.soLuong = soLuong;
+    public void setDiemDanhGia(Integer diemDanhGia) {
+        this.diemDanhGia = diemDanhGia;
+    }
+    
+    public String getNoiDung() {
+        return noiDung;
+    }
+    
+    public void setNoiDung(String noiDung) {
+        this.noiDung = noiDung;
+    }
+    
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+    
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
     }
     
     public LocalDateTime getCreatedAt() {
