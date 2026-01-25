@@ -25,13 +25,23 @@
                                 <!-- Error Message -->
                                 <div th:if="${param.error}" class="alert alert-danger" role="alert">
                                     <i class="bi bi-exclamation-triangle me-2"></i>
-                                    Sai số điện thoại hoặc mật khẩu!
+                                    <strong>Đăng nhập thất bại!</strong><br>
+                                    Sai số điện thoại hoặc mật khẩu. Vui lòng thử lại.
                                 </div>
                                 
                                 <!-- Logout Message -->
                                 <div th:if="${param.logout}" class="alert alert-success" role="alert">
                                     <i class="bi bi-check-circle me-2"></i>
                                     Đăng xuất thành công!
+                                </div>
+                                
+                                <!-- Info Message -->
+                                <div class="alert alert-info" role="alert">
+                                    <strong>🎮 Tài khoản test:</strong><br>
+                                    <small>
+                                        👨‍💼 Admin: <code>0987654321</code> / <code>2146</code><br>
+                                        👤 User: <code>0911222333</code> / <code>123456</code>
+                                    </small>
                                 </div>
                                 
                                 <!-- Login Form -->

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm - Gaming Shop Admin</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sidebar-width: 250px;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+        }
+        
+        .admin-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-brand {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        
+        .sidebar-menu .menu-item {
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-menu .menu-item:hover,
+        .sidebar-menu .menu-item.active {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+        
+        .admin-main {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+        
+        .admin-topbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px 30px;
+            margin-bottom: 30px;
+        }
+        
+        .product-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .table-actions .btn {
+            padding: 5px 10px;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- SIDEBAR -->
+    <div class="admin-sidebar">
+        <div class="sidebar-brand">
+            <i class="bi bi-controller" style="font-size: 2rem; color: #dc3545;"></i>
+            <h4 style="margin: 10px 0; font-weight: 700;">GAMING SHOP</h4>
+            <small class="text-muted">Admin Panel</small>
+        </div>
+        
+        <div class="sidebar-menu" style="padding: 20px 0;">
+            <a href="/admin/dashboard" class="menu-item">
+                <i class="bi bi-speedometer2"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <a href="/admin/products" class="menu-item active">
+                <i class="bi bi-box-seam"></i>
+                <span>Sản phẩm</span>
+            </a>
+            
+            <a href="/admin/orders" class="menu-item">
+                <i class="bi bi-cart-check"></i>
+                <span>Đơn hàng</span>
+            </a>
+            
+            <a href="/admin/users" class="menu-item">
+                <i class="bi bi-people"></i>
+                <span>Người dùng</span>
+            </a>
+            
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 10px;">
+            
+            <a href="/" class="menu-item">
+                <i class="bi bi-house"></i>
+                <span>Về trang chủ</span>
+            </a>
+            
+            <a href="/logout" class="menu-item">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Đăng xuất</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+        
+        <!-- TOPBAR -->
+        <div class="admin-topbar">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="mb-1">
+                        <i class="bi bi-box-seam text-primary me-2"></i>
+                        Quản lý sản phẩm
+                    </h4>
+                    <p class="text-muted mb-0">
+                        Tổng số: <span class="fw-bold" th:text="${products.size()}">0</span> sản phẩm
+                    </p>
+                </div>
+                
+                <a href="/admin/products/create" class="btn btn-danger">
+                    <i class="bi bi-plus-circle me-2"></i>Thêm sản phẩm mới
+                </a>
+            </div>
+        </div>
+        
+        <!-- CONTENT -->
+        <div class="container-fluid px-4 pb-4">
+            
+            <!-- SEARCH & FILTER -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" 
+                                   placeholder="🔍 Tìm kiếm sản phẩm...">
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select">
+                                <option>Tất cả danh mục</option>
+                                <option>Chuột Gaming</option>
+                                <option>Bàn phím Gaming</option>
+                                <option>Tai nghe Gaming</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select">
+                                <option>Tất cả hãng</option>
+                                <option>Logitech</option>
+                                <option>Razer</option>
+                                <option>Corsair</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PRODUCTS TABLE -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    
+                    <!-- Nếu có sản phẩm -->
+                    <div th:if="${products != null and !products.isEmpty()}">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="width: 5%;">ID</th>
+                                        <th style="width: 10%;">Hình ảnh</th>
+                                        <th style="width: 30%;">Tên sản phẩm</th>
+                                        <th style="width: 10%;">Hãng</th>
+                                        <th style="width: 12%;">Giá</th>
+                                        <th style="width: 8%;">Giảm giá</th>
+                                        <th style="width: 8%;">Tồn kho</th>
+                                        <th style="width: 17%;" class="text-center">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="product : ${products}">
+                                        <td th:text="${product.id}">1</td>
+                                        
+                                        <td>
+                                            <img th:src="${product.hinhAnh != null ? '/images/products/' + product.hinhAnh : 'https://via.placeholder.com/60'}" 
+                                                 th:alt="${product.tenSanPham}"
+                                                 class="product-image">
+                                        </td>
+                                        
+                                        <td>
+                                            <div class="fw-bold" th:text="${product.tenSanPham}">Product Name</div>
+                                            <small class="text-muted" th:text="${product.slug}">slug</small>
+                                        </td>
+                                        
+                                        <td>
+                                            <span class="badge bg-secondary" 
+                                                  th:if="${product.hang != null}"
+                                                  th:text="${product.hang.tenHang}">
+                                                Brand
+                                            </span>
+                                        </td>
+                                        
+                                        <td>
+                                            <span class="fw-bold text-danger">
+                                                [[${#numbers.formatInteger(product.giaSanPham, 0, 'COMMA')}]]₫
+                                            </span>
+                                        </td>
+                                        
+                                        <td>
+                                            <span th:if="${product.chietKhau != null and product.chietKhau > 0}"
+                                                  class="badge bg-warning">
+                                                -[[${product.chietKhau}]]%
+                                            </span>
+                                            <span th:unless="${product.chietKhau != null and product.chietKhau > 0}">
+                                                -
+                                            </span>
+                                        </td>
+                                        
+                                        <td>
+                                            <span th:if="${product.tonKho != null and product.tonKho > 0}"
+                                                  class="badge bg-success">
+                                                [[${product.tonKho}]]
+                                            </span>
+                                            <span th:unless="${product.tonKho != null and product.tonKho > 0}"
+                                                  class="badge bg-danger">
+                                                Hết hàng
+                                            </span>
+                                        </td>
+                                        
+                                        <td>
+                                            <div class="table-actions d-flex gap-2 justify-content-center">
+                                                <a th:href="@{'/admin/products/detail/' + ${product.id}}" 
+                                                   class="btn btn-sm btn-outline-info"
+                                                   title="Xem chi tiết">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                
+                                                <a th:href="@{'/admin/products/edit/' + ${product.id}}" 
+                                                   class="btn btn-sm btn-outline-warning"
+                                                   title="Sửa">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="confirmDelete([[${product.id}]], '[[${product.tenSanPham}]]')"
+                                                        title="Xóa">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Nếu không có sản phẩm -->
+                    <div th:if="${products == null or products.isEmpty()}" 
+                         class="text-center py-5">
+                        <i class="bi bi-inbox" style="font-size: 4rem; color: #ccc;"></i>
+                        <h5 class="mt-3 text-muted">Chưa có sản phẩm nào</h5>
+                        <p class="text-muted">Hãy thêm sản phẩm đầu tiên!</p>
+                        <a href="/admin/products/create" class="btn btn-danger">
+                            <i class="bi bi-plus-circle me-2"></i>Thêm sản phẩm
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function confirmDelete(id, name) {
+            if (confirm(`Bạn có chắc muốn xóa sản phẩm "${name}"?`)) {
+                window.location.href = `/admin/products/delete/${id}`;
+            }
+        }
+    </script>
+</body>
+</html>

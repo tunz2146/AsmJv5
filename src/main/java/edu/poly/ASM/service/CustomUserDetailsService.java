@@ -24,29 +24,29 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String soDienThoai)
             throws UsernameNotFoundException {
 
-        // 1️⃣ Tìm người dùng theo số điện thoại
+        // Tìm người dùng theo số điện thoại
         NguoiDung nguoiDung = nguoiDungRepository.findBySoDienThoai(soDienThoai)
                 .orElseThrow(() -> new UsernameNotFoundException(
                         "Không tìm thấy người dùng với số điện thoại: " + soDienThoai
                 ));
 
-        // 2️⃣ Xác định quyền (ROLE)
+        // Xác định quyền dựa vào số điện thoại (tạm thời)
         String role = "ROLE_USER";
 
-        // ADMIN cứng (demo / ASM)
-        if ("0987654321".equals(nguoiDung.getSoDienThoai())) {
+        // ⭐ DANH SÁCH ADMIN (tạm thời cho ASM)
+        // Có thể thêm nhiều số điện thoại admin vào đây
+        if ("0987654321".equals(nguoiDung.getSoDienThoai()) ||
+            "0794612606".equals(nguoiDung.getSoDienThoai())) {
             role = "ROLE_ADMIN";
         }
 
-        // 3️⃣ Trả về UserDetails
+        // Trả về UserDetails với role phù hợp
         return User.builder()
                 .username(nguoiDung.getSoDienThoai())
-                .password(nguoiDung.getPassword()) // 🔥 PASSWORD THƯỜNG
-                .authorities(
-                        Collections.singletonList(
-                                new SimpleGrantedAuthority(role)
-                        )
-                )
+                .password(nguoiDung.getPassword())
+                .authorities(Collections.singletonList(
+                        new SimpleGrantedAuthority(role)
+                ))
                 .build();
     }
 }

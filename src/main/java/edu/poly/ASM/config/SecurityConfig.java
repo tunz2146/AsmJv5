@@ -22,8 +22,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // PHÂN QUYỀN
             .authorizeHttpRequests(auth -> auth
+                // 🔓 PUBLIC - Không cần đăng nhập
                 .requestMatchers(
                     "/",
                     "/login",
@@ -32,23 +32,41 @@ public class SecurityConfig {
                     "/css/**",
                     "/js/**",
                     "/images/**",
-                    "/webjars/**"
+                    "/webjars/**",
+                    "/error"
                 ).permitAll()
-                .anyRequest().permitAll() // tạm thời cho hết
+                
+                // 🔐 ADMIN ONLY - Chỉ admin mới vào được
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                
+                // 🔒 USER - Cần đăng nhập
+                .requestMatchers("/cart/**", "/orders/**", "/profile/**").hasAnyRole("USER", "ADMIN")
+                
+                // Tất cả request khác cần authenticated
+                .anyRequest().authenticated()
             )
 
-            // FORM LOGIN
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/", true)
+                .successHandler((request, response, authentication) -> {
+                    // Kiểm tra role và redirect
+                    boolean isAdmin = authentication.getAuthorities().stream()
+                        .anyMatch(grantedAuthority -> 
+                            grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+                    
+                    if (isAdmin) {
+                        response.sendRedirect("/admin/dashboard");
+                    } else {
+                        response.sendRedirect("/");
+                    }
+                })
                 .failureUrl("/login?error=true")
-                .usernameParameter("username") // số điện thoại
+                .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()
             )
 
-            // LOGOUT
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/?logout=true")
@@ -57,16 +75,16 @@ public class SecurityConfig {
                 .permitAll()
             )
 
-            // TẮT CSRF (CHO DỄ TEST)
-            .csrf(csrf -> csrf.disable())
+            .exceptionHandling(ex -> ex
+                .accessDeniedPage("/403")
+            )
 
-            // USER DETAILS SERVICE
+            .csrf(csrf -> csrf.disable())
             .userDetailsService(userDetailsService);
 
         return http.build();
     }
 
-    // 🔥 PASSWORD THƯỜNG – KHÔNG MÃ HÓA
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
