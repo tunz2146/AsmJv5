@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Nguoi_Dung")
+
 public class NguoiDung {
     
     @Id
@@ -161,4 +162,9 @@ public class NguoiDung {
     public void setDanhGias(List<DanhGia> danhGias) {
         this.danhGias = danhGias;
     }
+
+    public String getRole() {
+    throw new UnsupportedOperationException("Unimplemented method 'getRole'");
+    }
+
 }

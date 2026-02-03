@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>Đặt hàng thành công - Gaming Shop</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        
+        <section class="order-success-section py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        
+                        <!-- Success Card -->
+                        <div class="card border-0 shadow-lg text-center">
+                            <div class="card-body p-5">
+                                
+                                <!-- Success Icon -->
+                                <div class="success-icon mb-4">
+                                    <i class="bi bi-check-circle-fill text-success" 
+                                       style="font-size: 6rem;"></i>
+                                </div>
+                                
+                                <!-- Success Message -->
+                                <h2 class="fw-bold text-success mb-3">
+                                    Đặt hàng thành công!
+                                </h2>
+                                
+                                <p class="lead text-muted mb-4">
+                                    Cảm ơn bạn đã mua hàng tại Gaming Shop
+                                </p>
+                                
+                                <!-- Order Info -->
+                                <div class="alert alert-light border mb-4">
+                                    <p class="mb-2">
+                                        <strong>Mã đơn hàng:</strong> 
+                                        <span class="text-danger">#[[${orderId != null ? orderId : '---'}]]</span>
+                                    </p>
+                                    <p class="mb-0">
+                                        Chúng tôi đã gửi email xác nhận đơn hàng đến địa chỉ email của bạn.
+                                    </p>
+                                </div>
+                                
+                                <!-- Next Steps -->
+                                <div class="next-steps text-start mb-4">
+                                    <h5 class="fw-bold mb-3">
+                                        <i class="bi bi-list-check text-primary me-2"></i>
+                                        Các bước tiếp theo:
+                                    </h5>
+                                    <ol class="text-muted">
+                                        <li class="mb-2">Chúng tôi sẽ xác nhận đơn hàng trong vòng 1-2 giờ</li>
+                                        <li class="mb-2">Đơn hàng sẽ được đóng gói và giao cho đơn vị vận chuyển</li>
+                                        <li class="mb-2">Bạn sẽ nhận được thông báo khi đơn hàng đang được giao</li>
+                                        <li>Thanh toán khi nhận hàng (COD)</li>
+                                    </ol>
+                                </div>
+                                
+                                <!-- Contact Info -->
+                                <div class="alert alert-info mb-4">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    <strong>Cần hỗ trợ?</strong> Liên hệ: 
+                                    <a href="tel:0987654321">0987 654 321</a>
+                                </div>
+                                
+                                <!-- Actions -->
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <a href="/orders" class="btn btn-primary btn-lg w-100">
+                                            <i class="bi bi-bag-fill me-2"></i>
+                                            Xem đơn hàng của tôi
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="/products" class="btn btn-outline-danger btn-lg w-100">
+                                            <i class="bi bi-arrow-left me-2"></i>
+                                            Tiếp tục mua hàng
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                        <!-- Why Shop With Us -->
+                        <div class="row g-4 mt-4">
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <i class="bi bi-shield-check text-success fs-1 mb-2"></i>
+                                    <h6 class="fw-bold">Bảo hành chính hãng</h6>
+                                    <small class="text-muted">Lên đến 24 tháng</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <i class="bi bi-truck text-primary fs-1 mb-2"></i>
+                                    <h6 class="fw-bold">Giao hàng nhanh</h6>
+                                    <small class="text-muted">Miễn phí toàn quốc</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <i class="bi bi-headset text-info fs-1 mb-2"></i>
+                                    <h6 class="fw-bold">Hỗ trợ 24/7</h6>
+                                    <small class="text-muted">Tư vấn nhiệt tình</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+    
+    <!-- Custom Animation -->
+    <th:block layout:fragment="css">
+        <style>
+            .success-icon i {
+                animation: scaleIn 0.5s ease-in-out;
+            }
+            
+            @keyframes scaleIn {
+                0% {
+                    transform: scale(0);
+                    opacity: 0;
+                }
+                50% {
+                    transform: scale(1.2);
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+        </style>
+    </th:block>
+</body>
+</html>

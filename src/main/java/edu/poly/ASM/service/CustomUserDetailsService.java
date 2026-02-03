@@ -30,17 +30,10 @@ public class CustomUserDetailsService implements UserDetailsService {
                         "Không tìm thấy người dùng với số điện thoại: " + soDienThoai
                 ));
 
-        // Xác định quyền dựa vào số điện thoại (tạm thời)
-        String role = "ROLE_USER";
+        // ⭐ LẤY ROLE TỪ DATABASE
+        String role = "ROLE_" + (nguoiDung.getRole() != null ? nguoiDung.getRole() : "USER");
 
-        // ⭐ DANH SÁCH ADMIN (tạm thời cho ASM)
-        // Có thể thêm nhiều số điện thoại admin vào đây
-        if ("0987654321".equals(nguoiDung.getSoDienThoai()) ||
-            "0794612606".equals(nguoiDung.getSoDienThoai())) {
-            role = "ROLE_ADMIN";
-        }
-
-        // Trả về UserDetails với role phù hợp
+        // Trả về UserDetails với role từ database
         return User.builder()
                 .username(nguoiDung.getSoDienThoai())
                 .password(nguoiDung.getPassword())
@@ -48,5 +41,13 @@ public class CustomUserDetailsService implements UserDetailsService {
                         new SimpleGrantedAuthority(role)
                 ))
                 .build();
+    }
+    
+    /**
+     * ⭐ THÊM METHOD LẤY THÔNG TIN USER HIỆN TẠI
+     */
+    public NguoiDung getCurrentUser(String soDienThoai) {
+        return nguoiDungRepository.findBySoDienThoai(soDienThoai)
+                .orElse(null);
     }
 }
